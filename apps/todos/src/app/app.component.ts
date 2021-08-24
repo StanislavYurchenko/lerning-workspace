@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Message } from '@learning-workspace/api-interfaces';
+// import { ServicesModule } from '@learning-workspace/services';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { ApiService } from 'libs/services/src/lib/api-services/api-services.service';
+
+
 
 @Component({
   selector: 'learning-workspace-root',
@@ -8,6 +11,13 @@ import { Message } from '@learning-workspace/api-interfaces';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  hello$ = this.http.get<Message>('/api/hello');
-  constructor(private http: HttpClient) {}
+  hello$ = this.apiService.getHello();
+  res$ = this.apiService.getTodos();
+
+  constructor(private readonly apiService: ApiService) {}
+
+  click() {
+    console.log('click');
+    this.res$ = this.apiService.getTodos();
+  }
 }

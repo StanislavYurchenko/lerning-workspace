@@ -42,21 +42,21 @@ export class AppController {
     return this.appService.addTodo(data);
   }
 
-  @Delete('todo/:id')
-  async removeTodo(@Param('id') id: string) {
+  @Put('todo/:id')
+  async updateTodoById(@Param('id') id: string, @Body() data) {
     if (!id) {
       throw new NotFoundException();
     }
 
-    return this.appService.removeTodo(id);
+    return this.appService.updateTodoById(id, data);
   }
 
-  @Put('todo/:id')
-  async updateTodo(@Param('id') id: string, @Body() data) {
+  @Delete('todo/:id')
+  async removeTodoById(@Param('id') id: string) {
     if (!id) {
       throw new NotFoundException();
     }
 
-    return this.appService.updateTodo(id, data);
+    return this.appService.removeTodoById(id);
   }
 }

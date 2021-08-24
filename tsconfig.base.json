@@ -15,7 +15,10 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@learning-workspace/api-interfaces": ["libs/api-interfaces/src/index.ts"]
+      "@learning-workspace/api-interfaces": [
+        "libs/api-interfaces/src/index.ts"
+      ],
+      "@learning-workspace/services": ["libs/services/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

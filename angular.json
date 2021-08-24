@@ -64,6 +64,31 @@
         }
       }
     },
+    "services": {
+      "projectType": "library",
+      "root": "libs/services",
+      "sourceRoot": "libs/services/src",
+      "prefix": "learning-workspace",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/services"],
+          "options": {
+            "jestConfig": "libs/services/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/services/src/**/*.ts",
+              "libs/services/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
     "todos": {
       "projectType": "application",
       "root": "apps/todos",
