@@ -1,0 +1,7 @@
+<ul *ngIf="todos.length" class="">
+  <li *ngFor="let todo of todos; let i = index" class="">
+    <h3 class="">{{i+1}}. {{todo.title}}</h3>
+    <p [textContent]="todo.description" class=""></p>
+  </li>
+</ul>
+

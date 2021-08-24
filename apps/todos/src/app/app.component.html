@@ -1,12 +1,17 @@
-<div style="text-align: center">
-  <h1>Welcome to todos!</h1>
-  <img
-    width="450"
-    src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png"
-    alt="Nx - Smart, Extensible Build Framework"
-  />
-</div>
-<div>Message: {{ hello$ | async | json }}</div>
+<header class="fixed-top">
+  <learning-workspace-header></learning-workspace-header>
+</header>
+
+<main class="p-3 mt-5">
+  <router-outlet></router-outlet>  
+</main>
+
+<footer class="fixed-bottom">
+  <learning-workspace-footer></learning-workspace-footer>
+</footer>
+
+<!-- <div>Message: {{ hello$ | async | json }}</div>
 
 <button (click)="click()">click</button>
-<div>Message: {{ res$ | async | json }}</div>
+<div>Message: {{ res$ | async | json }}</div> -->
+
