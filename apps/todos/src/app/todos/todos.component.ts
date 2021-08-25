@@ -1,6 +1,8 @@
 /* eslint-disable @angular-eslint/no-empty-lifecycle-method */
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+
 import { Subscription } from 'rxjs';
 
 // import { ServicesModule } from '@learning-workspace/services';
@@ -14,20 +16,38 @@ import { Todo } from '@learning-workspace/api-interfaces';
   styleUrls: ['./todos.component.scss'],
 })
 export class TodosComponent implements OnInit, OnDestroy {
+  private subscription = new Subscription();
   public todos: Todo[] = [];
+
+  todoForm: FormGroup = new FormGroup({
+    title: new FormControl('', [
+      Validators.required,
+      Validators.minLength(3),
+    ]),
+    description: new FormControl('', [
+      Validators.required,
+      Validators.minLength(10),
+    ]),
+    ready: new FormControl(false),
+  });
 
   constructor(private readonly apiService: ApiService) {}
 
-  private subscription = new Subscription();
-
   ngOnInit(): void {
-    const todosSubscription = this.apiService
+    const getTodosSubscription = this.apiService
       .getTodos()
-      .subscribe((todos) => (this.todos = todos));    
-    this.subscription.add(todosSubscription);
+      .subscribe((todos) => (this.todos = todos));
+    this.subscription.add(getTodosSubscription);
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+  
+  addTodo() {
+    const getTodosSubscription = this.apiService
+      .addTodo(this.todoForm.value)
+      .subscribe((todo) => this.todos.push(todo));
+    this.subscription.add(getTodosSubscription);
   }
 }

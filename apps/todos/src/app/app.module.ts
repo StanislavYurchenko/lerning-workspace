@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
@@ -12,12 +13,27 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 
-// import { ServicesModule } from '@learning-workspace/services';
+import { ServicesModule } from '@learning-workspace/services';
 // import { ApiService } from 'libs/services/src/lib/api-services/api-services.service';
 
 @NgModule({
-  declarations: [AppComponent, AboutComponent, TodoComponent, TodosComponent, PageNotFoundComponent, HeaderComponent, FooterComponent],
-  imports: [BrowserModule, HttpClientModule, AppRoutingModule, NgbModule],
+  declarations: [
+    AppComponent,
+    AboutComponent,
+    TodoComponent,
+    TodosComponent,
+    PageNotFoundComponent,
+    HeaderComponent,
+    FooterComponent,
+  ],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    AppRoutingModule,
+    NgbModule,
+    ServicesModule,
+    ReactiveFormsModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

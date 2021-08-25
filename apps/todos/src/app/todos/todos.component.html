@@ -1,7 +1,39 @@
+<form [formGroup]="todoForm" (ngSubmit)="addTodo()">
+  <div>
+    <label for="title">Title: </label>
+    <input
+      id="title" 
+      type="text"
+      formControlName="title"
+      placeholder="Todo title"
+    >
+  </div>
+
+  <div>
+    <label for="description">Description: </label>
+    <textarea
+      id="description"
+      formControlName="description"
+      placeholder="Todo description"
+    ></textarea>
+  </div>
+
+  <div>
+    <label for="ready">Ready: </label>
+    <input id="ready" type="checkbox" formControlName="ready">
+  </div>
+
+  <button
+    type="confirm"
+    [disabled]="todoForm.invalid"
+  >Add Todo</button>
+</form>
+
 <ul *ngIf="todos.length" class="">
   <li *ngFor="let todo of todos; let i = index" class="">
     <h3 class="">{{i+1}}. {{todo.title}}</h3>
     <p [textContent]="todo.description" class=""></p>
+    <p [textContent]="todo._id"></p>
   </li>
 </ul>
 

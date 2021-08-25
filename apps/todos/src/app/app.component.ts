@@ -11,13 +11,5 @@ import { ApiService } from 'libs/services/src/lib/api-services/api-services.serv
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  hello$ = this.apiService.getHello();
-  res$ = this.apiService.getTodos();
-
   constructor(private readonly apiService: ApiService) {}
-
-  click() {
-    console.log('click');
-    this.res$ = this.apiService.getTodos();
-  }
 }
