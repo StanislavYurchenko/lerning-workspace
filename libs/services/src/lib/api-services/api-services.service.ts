@@ -27,7 +27,7 @@ export class ApiService {
 
   getTodoById(id: string): Observable<Todo> {
     return this.http
-      .get<TodoResponse>(`/api/todo/:${id}`)
+      .get<TodoResponse>(`/api/todo/${id}`)
       .pipe(map((res) => res.data));
   }
 
@@ -39,13 +39,13 @@ export class ApiService {
 
   updateTodoById(id: string, body: Partial<Todo>): Observable<Todo> {
     return this.http
-      .put<TodoResponse>(`/api/todo/:${id}`, body)
+      .put<TodoResponse>(`/api/todo/${id}`, body)
       .pipe(map((res) => res.data));
   }
 
   removeTodoById(id: string): Observable<Todo> {
     return this.http
-      .delete<TodoResponse>(`/api/todo/:${id}`)
+      .delete<TodoResponse>(`/api/todo/${id}`)
       .pipe(map((res) => res.data));
   }
 }

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
@@ -27,12 +27,13 @@ import { ServicesModule } from '@learning-workspace/services';
     FooterComponent,
   ],
   imports: [
+    FormsModule,
+    ReactiveFormsModule,
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
     NgbModule,
     ServicesModule,
-    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

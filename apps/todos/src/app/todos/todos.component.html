@@ -26,14 +26,28 @@
   <button
     type="confirm"
     [disabled]="todoForm.invalid"
-  >Add Todo</button>
+  >Add/Edit Todo</button>
 </form>
 
-<ul *ngIf="todos.length" class="">
-  <li *ngFor="let todo of todos; let i = index" class="">
-    <h3 class="">{{i+1}}. {{todo.title}}</h3>
-    <p [textContent]="todo.description" class=""></p>
-    <p [textContent]="todo._id"></p>
+<ul *ngIf="todos.length" class="list-group">
+  <li *ngFor="let todo of todos; let i = index" 
+    class="border border-2 rounded p-1 mb-2 bg-light list-group-item d-flex justify-content-between" 
+    >
+    <h3 [textContent]="todo.title" class=""></h3>
+    <div>
+      <button 
+        (click)="editTodo(todo._id)"
+        class = "btn btn-outline-primary mr-2"
+        ><i class="bi bi-pencil"></i>
+      </button>
+      <button 
+        (click)="removeTodo(todo._id)"
+        class = "btn btn-outline-danger"
+        ><i class="bi bi-trash"></i>
+      </button>
+    </div>
   </li>
 </ul>
+
+<!-- <ngbd-modal-component name="STAS !!!!"></ngbd-modal-component> -->
 
