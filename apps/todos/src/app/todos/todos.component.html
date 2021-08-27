@@ -1,46 +1,23 @@
-<form [formGroup]="todoForm" (ngSubmit)="addTodo()">
-  <div>
-    <label for="title">Title: </label>
-    <input
-      id="title" 
-      type="text"
-      formControlName="title"
-      placeholder="Todo title"
-    >
-  </div>
 
-  <div>
-    <label for="description">Description: </label>
-    <textarea
-      id="description"
-      formControlName="description"
-      placeholder="Todo description"
-    ></textarea>
-  </div>
-
-  <div>
-    <label for="ready">Ready: </label>
-    <input id="ready" type="checkbox" formControlName="ready">
-  </div>
-
-  <button
-    type="confirm"
-    [disabled]="todoForm.invalid"
-  >Add/Edit Todo</button>
-</form>
 
 <ul *ngIf="todos.length" class="list-group">
   <li *ngFor="let todo of todos; let i = index" 
-    class="border border-2 rounded p-1 mb-2 bg-light list-group-item d-flex justify-content-between" 
+    class="border border-2 rounded p-1 mb-2 bg-light list-group-item d-flex justify-content-between"
+    [ngClass] = 'todo.ready ? "border-success" : "border-primary"'
     >
     <h3 [textContent]="todo.title" class=""></h3>
     <div>
+      <button *ngIf="!todo.ready"
+        (click)="checkTodo(todo._id)"
+        class = "btn btn-outline-success mr-2"
+        ><i class="bi bi-check2-square"></i>
+      </button>
       <button 
-        (click)="editTodo(todo._id)"
+        (click)="editTodo(todo._id, content)"
         class = "btn btn-outline-primary mr-2"
         ><i class="bi bi-pencil"></i>
       </button>
-      <button 
+      <button
         (click)="removeTodo(todo._id)"
         class = "btn btn-outline-danger"
         ><i class="bi bi-trash"></i>
@@ -49,5 +26,46 @@
   </li>
 </ul>
 
-<!-- <ngbd-modal-component name="STAS !!!!"></ngbd-modal-component> -->
+<button class="btn btn-outline-primary mb-2 mr-2" (click)="openAddTodoForm(content)">Add todo</button>
 
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">{{editTodoId ? "Edit" : "Add" }} Todo</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeAddTodoForm()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <form [formGroup]="todoForm" (ngSubmit)="addTodo()" class="modal-body">
+    <div>
+      <label for="title">Title: </label>
+      <input
+        id="title" 
+        type="text"
+        formControlName="title"
+        placeholder="Todo title"
+      >
+    </div>
+
+    <div>
+      <label for="description">Description: </label>
+      <textarea
+        id="description"
+        formControlName="description"
+        placeholder="Todo description"
+      ></textarea>
+    </div>
+
+    <div>
+      <label for="ready">Ready: </label>
+      <input id="ready" type="checkbox" formControlName="ready">
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="closeAddTodoForm()">Close</button>
+      <button type="confirm" [disabled]="todoForm.invalid" class="btn btn-primary">
+        {{editTodoId ? "Edit" : "Add" }} Todo
+      </button>
+    </div>
+  </form>
+</ng-template>
