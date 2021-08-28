@@ -25,7 +25,7 @@ export class TodosComponent implements OnInit, OnDestroy {
   constructor(
     private readonly apiService: ApiService,
     private readonly fb: FormBuilder,
-    private modalService: NgbModal
+    private readonly modalService: NgbModal
   ) {}
 
   ngOnInit(): void {

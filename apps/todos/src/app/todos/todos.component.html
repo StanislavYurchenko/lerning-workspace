@@ -1,29 +1,34 @@
 
 
 <ul *ngIf="todos.length" class="list-group">
-  <li *ngFor="let todo of todos; let i = index" 
-    class="border border-2 rounded p-1 mb-2 bg-light list-group-item d-flex justify-content-between"
-    [ngClass] = 'todo.ready ? "border-success" : "border-primary"'
-    >
-    <h3 [textContent]="todo.title" class=""></h3>
-    <div>
-      <button *ngIf="!todo.ready"
-        (click)="checkTodo(todo._id)"
-        class = "btn btn-outline-success mr-2"
-        ><i class="bi bi-check2-square"></i>
-      </button>
-      <button 
-        (click)="editTodo(todo._id, content)"
-        class = "btn btn-outline-primary mr-2"
-        ><i class="bi bi-pencil"></i>
-      </button>
-      <button
-        (click)="removeTodo(todo._id)"
-        class = "btn btn-outline-danger"
-        ><i class="bi bi-trash"></i>
-      </button>
-    </div>
-  </li>
+  
+  <ng-container *ngFor="let todo of todos">
+    <a [routerLink]="[todo._id]">
+      <li role="button"
+        class="border border-2 rounded p-1 mb-2 bg-light list-group-item d-flex justify-content-between"
+        [ngClass] = 'todo.ready ? "border-success" : "border-primary"'
+        >
+        <h3 [textContent]="todo.title" class=""></h3>
+        <div>
+          <button *ngIf="!todo.ready"
+            (click)="checkTodo(todo._id); $event.stopPropagation()"
+            class = "btn btn-outline-success mr-2"
+            ><i class="bi bi-check2-square"></i>
+          </button>
+          <button 
+            (click)="editTodo(todo._id, content); $event.stopPropagation()"
+            class = "btn btn-outline-primary mr-2"
+            ><i class="bi bi-pencil"></i>
+          </button>
+          <button
+            (click)="removeTodo(todo._id); $event.stopPropagation()"
+            class = "btn btn-outline-danger"
+            ><i class="bi bi-trash"></i>
+          </button>
+        </div>
+      </li>
+    </a>
+  </ng-container>
 </ul>
 
 <button class="btn btn-outline-primary mb-2 mr-2" (click)="openAddTodoForm(content)">Add todo</button>

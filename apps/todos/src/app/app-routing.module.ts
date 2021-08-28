@@ -9,7 +9,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 const routes: Routes = [
   { path: 'about', component: AboutComponent },
   { path: 'todos', component: TodosComponent, pathMatch: 'full' },
-  { path: 'todo/:id', component: TodoComponent },
+  { path: 'todos/:id', component: TodoComponent },
   { path: '', redirectTo: '/about', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent },
 ];
