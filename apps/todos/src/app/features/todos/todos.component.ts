@@ -17,10 +17,11 @@ import { Todo } from '@learning-workspace/api-interfaces';
   styleUrls: ['./todos.component.scss'],
 })
 export class TodosComponent implements OnInit, OnDestroy {
-  private subscription = new Subscription();
   public todos: Todo[] = [];
   public todoForm: FormGroup;
   public editTodoId = '';
+
+  private subscription = new Subscription();
 
   constructor(
     private readonly apiService: ApiService,
@@ -28,6 +29,7 @@ export class TodosComponent implements OnInit, OnDestroy {
     private readonly modalService: NgbModal
   ) {}
 
+  // TODO: change subscription to rxjs
   ngOnInit(): void {
     const getTodosSubscription = this.apiService
       .getTodos()
@@ -45,7 +47,7 @@ export class TodosComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  addTodo(): void {
+  public addTodo(): void {
     if (this.editTodoId) {
       const removeTodosSubscription = this.apiService
         .updateTodoById(this.editTodoId, this.todoForm.value)
@@ -68,7 +70,7 @@ export class TodosComponent implements OnInit, OnDestroy {
     this.subscription.add(getTodosSubscription);
   }
 
-  removeTodo(id: string): void {
+  public removeTodo(id: string): void {
     const removeTodosSubscription = this.apiService
       .removeTodoById(id)
       .subscribe((removedTodo) => {
@@ -79,7 +81,7 @@ export class TodosComponent implements OnInit, OnDestroy {
     this.subscription.add(removeTodosSubscription);
   }
 
-  editTodo(id: string, content: TemplateRef<unknown>): void {
+  public editTodo(id: string, content: TemplateRef<unknown>): void {
     this.editTodoId = id;
 
     const todo = this.todos.find((todo) => todo._id === id);
@@ -93,7 +95,7 @@ export class TodosComponent implements OnInit, OnDestroy {
     this.openAddTodoForm(content);
   }
 
-  checkTodo(id: string): void {
+  public checkTodo(id: string): void {
     const checkTodosSubscription = this.apiService
       .updateTodoById(id, { ready: true })
       .subscribe((updatedTodo) => {
@@ -104,15 +106,19 @@ export class TodosComponent implements OnInit, OnDestroy {
     this.subscription.add(checkTodosSubscription);
   }
 
-  openAddTodoForm(content: TemplateRef<unknown>): void {
+  public openAddTodoForm(content: TemplateRef<unknown>): void {
     this.modalService.open(content, { centered: true }).result.then(
       () => {},
       () => this.closeAddTodoForm()
     );
   }
 
-  closeAddTodoForm(): void {
+  public closeAddTodoForm(): void {
     this.todoForm.reset();
     this.modalService.dismissAll();
+  }
+
+  public todoIdentify(index: number, todo: Todo): string {
+    return todo._id;
   }
 }

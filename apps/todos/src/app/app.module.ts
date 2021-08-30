@@ -6,21 +6,18 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
-import { AboutComponent } from './about/about.component';
-import { TodoComponent } from './todo/todo.component';
-import { TodosComponent } from './todos/todos.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
-
-import { ServicesModule } from '@learning-workspace/services';
-// import { ApiService } from 'libs/services/src/lib/api-services/api-services.service';
+import { AboutComponent } from './modules/about/about.component';
+import { TodoDetailsComponent } from './features/todo-details/todo-details.component';
+import { TodosComponent } from './features/todos/todos.component';
+import { PageNotFoundComponent } from './modules/page-not-found/page-not-found.component';
+import { HeaderComponent } from './modules/header/header.component';
+import { FooterComponent } from './modules/footer/footer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AboutComponent,
-    TodoComponent,
+    TodoDetailsComponent,
     TodosComponent,
     PageNotFoundComponent,
     HeaderComponent,
@@ -33,7 +30,6 @@ import { ServicesModule } from '@learning-workspace/services';
     HttpClientModule,
     AppRoutingModule,
     NgbModule,
-    ServicesModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

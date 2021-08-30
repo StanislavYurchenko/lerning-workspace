@@ -8,24 +8,25 @@ import { Todo } from '@learning-workspace/api-interfaces';
 
 @Component({
   selector: 'learning-workspace-todo',
-  templateUrl: './todo.component.html',
-  styleUrls: ['./todo.component.scss'],
+  templateUrl: './todo-details.component.html',
+  styleUrls: ['./todo-details.component.scss'],
 })
-export class TodoComponent implements OnInit, OnDestroy {
-  private subscription = new Subscription();
+export class TodoDetailsComponent implements OnInit, OnDestroy {
   public todoId: string;
   public todo: Todo;
-  public loading: true;
+  public loading = true;
+
+  private subscription = new Subscription();
 
   constructor(
     private readonly route: ActivatedRoute,
     private readonly apiService: ApiService
   ) {}
 
+  // TODO: change subscription to rxjs
   ngOnInit(): void {
     this.todoId = this.route.snapshot.params.id;
 
-    console.log(this.route);
     const getTodoSubscription = this.apiService
       .getTodoById(this.todoId)
       .subscribe((todo) => {

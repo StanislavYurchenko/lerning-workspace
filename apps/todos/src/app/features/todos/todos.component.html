@@ -1,9 +1,6 @@
-
-
-<ul *ngIf="todos.length" class="list-group">
-  
-  <ng-container *ngFor="let todo of todos">
-    <a [routerLink]="[todo._id]">
+<ul *ngIf="todos.length" class="list-group">  
+  <ng-container *ngFor="let todo of todos; trackBy:todoIdentify">
+    <!-- <a [routerLink]="[todo._id]"> -->
       <li role="button"
         class="border border-2 rounded p-1 mb-2 bg-light list-group-item d-flex justify-content-between"
         [ngClass] = 'todo.ready ? "border-success" : "border-primary"'
@@ -27,7 +24,7 @@
           </button>
         </div>
       </li>
-    </a>
+    <!-- </a> -->
   </ng-container>
 </ul>
 
