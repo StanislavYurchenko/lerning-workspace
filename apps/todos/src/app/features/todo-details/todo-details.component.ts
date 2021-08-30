@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { ApiService } from 'libs/services/src/lib/api-services/api-services.service';
 import { Subscription } from 'rxjs';
 
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { ApiService } from 'libs/services/src/lib/api-services/api-services.service';
 import { Todo } from '@learning-workspace/api-interfaces';
 
 @Component({
@@ -23,10 +23,17 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
     private readonly apiService: ApiService
   ) {}
 
-  // TODO: change subscription to rxjs
   ngOnInit(): void {
-    this.todoId = this.route.snapshot.params.id;
+    this.todoId = this.getTodoIdFromRoute();
+    this.getTodoSubscription();
+  }
 
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  // TODO: change subscription to rxjs
+  private getTodoSubscription() {
     const getTodoSubscription = this.apiService
       .getTodoById(this.todoId)
       .subscribe((todo) => {
@@ -36,8 +43,8 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
     this.subscription.add(getTodoSubscription);
   }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+  private getTodoIdFromRoute() {
+    return this.route.snapshot.params.id;
   }
 }
 

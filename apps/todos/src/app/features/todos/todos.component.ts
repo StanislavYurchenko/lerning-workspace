@@ -1,12 +1,8 @@
-/* eslint-disable @angular-eslint/no-empty-lifecycle-method */
-/* eslint-disable @typescript-eslint/no-empty-function */
 import { Component, OnInit, OnDestroy, TemplateRef } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-
 import { Subscription } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-// import { ServicesModule } from '@learning-workspace/services';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { ApiService } from 'libs/services/src/lib/api-services/api-services.service';
 import { Todo } from '@learning-workspace/api-interfaces';
@@ -29,18 +25,9 @@ export class TodosComponent implements OnInit, OnDestroy {
     private readonly modalService: NgbModal
   ) {}
 
-  // TODO: change subscription to rxjs
   ngOnInit(): void {
-    const getTodosSubscription = this.apiService
-      .getTodos()
-      .subscribe((todos) => (this.todos = todos));
-    this.subscription.add(getTodosSubscription);
-
-    this.todoForm = this.fb.group({
-      title: ['', [Validators.required, Validators.minLength(3)]],
-      description: ['', [Validators.required, Validators.minLength(10)]],
-      ready: [false],
-    });
+    this.getTodosSubscription();
+    this.todoForm = this.AddEditTodoFormBuild();
   }
 
   ngOnDestroy(): void {
@@ -120,5 +107,21 @@ export class TodosComponent implements OnInit, OnDestroy {
 
   public todoIdentify(index: number, todo: Todo): string {
     return todo._id;
+  }
+
+  private AddEditTodoFormBuild(): FormGroup {
+    return this.fb.group({
+      title: ['', [Validators.required, Validators.minLength(3)]],
+      description: ['', [Validators.required, Validators.minLength(10)]],
+      ready: [false],
+    });
+  }
+
+  // TODO: change subscription to rxjs
+  private getTodosSubscription() {
+    const getTodosSubscription = this.apiService
+      .getTodos()
+      .subscribe((todos) => (this.todos = todos));
+    this.subscription.add(getTodosSubscription);
   }
 }
