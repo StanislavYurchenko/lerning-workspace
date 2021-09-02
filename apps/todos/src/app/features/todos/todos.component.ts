@@ -16,6 +16,7 @@ export class TodosComponent implements OnInit, OnDestroy {
   public todos: Todo[] = [];
   public todoForm: FormGroup;
   public editTodoId = '';
+  public selectedTodo: Todo;
 
   private subscription = new Subscription();
 
@@ -27,7 +28,6 @@ export class TodosComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getTodosSubscription();
-    this.todoForm = this.AddEditTodoFormBuild();
   }
 
   ngOnDestroy(): void {
@@ -35,26 +35,26 @@ export class TodosComponent implements OnInit, OnDestroy {
   }
 
   public addTodo(): void {
-    if (this.editTodoId) {
-      const removeTodosSubscription = this.apiService
-        .updateTodoById(this.editTodoId, this.todoForm.value)
-        .subscribe((updatedTodo) => {
-          this.todos = this.todos.map((todo) =>
-            todo._id === updatedTodo._id ? updatedTodo : todo
-          );
-          this.closeAddTodoForm();
-        });
-      this.subscription.add(removeTodosSubscription);
-      this.editTodoId = '';
-      return;
-    }
-    const getTodosSubscription = this.apiService
-      .addTodo(this.todoForm.value)
-      .subscribe((todo) => {
-        this.todos.push(todo);
-        this.closeAddTodoForm();
-      });
-    this.subscription.add(getTodosSubscription);
+    // if (this.editTodoId) {
+    //   const removeTodosSubscription = this.apiService
+    //     .updateTodoById(this.editTodoId, this.todoForm.value)
+    //     .subscribe((updatedTodo) => {
+    //       this.todos = this.todos.map((todo) =>
+    //         todo._id === updatedTodo._id ? updatedTodo : todo
+    //       );
+    //       this.closeAddTodoForm();
+    //     });
+    //   this.subscription.add(removeTodosSubscription);
+    //   this.editTodoId = '';
+    //   return;
+    // }
+    // const getTodosSubscription = this.apiService
+    //   .addTodo(this.todoForm.value)
+    //   .subscribe((todo) => {
+    //     this.todos.push(todo);
+    //     this.closeAddTodoForm();
+    //   });
+    // this.subscription.add(getTodosSubscription);
   }
 
   public removeTodo(id: string): void {
@@ -68,18 +68,9 @@ export class TodosComponent implements OnInit, OnDestroy {
     this.subscription.add(removeTodosSubscription);
   }
 
-  public editTodo(id: string, content: TemplateRef<unknown>): void {
+  public editTodo(id: string): void {
     this.editTodoId = id;
-
-    const todo = this.todos.find((todo) => todo._id === id);
-
-    this.todoForm.setValue({
-      title: todo?.title,
-      description: todo?.description,
-      ready: todo?.ready,
-    });
-
-    this.openAddTodoForm(content);
+    this.selectedTodo = this.todos.find((todo) => todo._id === id) as Todo;
   }
 
   public checkTodo(id: string): void {
@@ -93,28 +84,8 @@ export class TodosComponent implements OnInit, OnDestroy {
     this.subscription.add(checkTodosSubscription);
   }
 
-  public openAddTodoForm(content: TemplateRef<unknown>): void {
-    this.modalService.open(content, { centered: true }).result.then(
-      () => {},
-      () => this.closeAddTodoForm()
-    );
-  }
-
-  public closeAddTodoForm(): void {
-    this.todoForm.reset();
-    this.modalService.dismissAll();
-  }
-
   public todoIdentify(index: number, todo: Todo): string {
     return todo._id;
-  }
-
-  private AddEditTodoFormBuild(): FormGroup {
-    return this.fb.group({
-      title: ['', [Validators.required, Validators.minLength(3)]],
-      description: ['', [Validators.required, Validators.minLength(10)]],
-      ready: [false],
-    });
   }
 
   // TODO: change subscription to rxjs

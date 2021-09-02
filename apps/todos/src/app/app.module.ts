@@ -2,9 +2,11 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HttpClientModule } from '@angular/common/http';
+
+import { AddEditTodoFormModule } from './modules/add-edit-todo-form/add-edit-todo-form.module';
 
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AboutComponent } from './modules/about/about.component';
 import { TodoDetailsComponent } from './features/todo-details/todo-details.component';
@@ -30,6 +32,7 @@ import { FooterComponent } from './modules/footer/footer.component';
     HttpClientModule,
     AppRoutingModule,
     NgbModule,
+    AddEditTodoFormModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

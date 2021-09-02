@@ -8,17 +8,17 @@
         <h3 [textContent]="todo.title" class=""></h3>
         <div>
           <button *ngIf="!todo.ready"
-            (click)="checkTodo(todo._id); $event.stopPropagation()"
+            (click)="checkTodo(todo._id)"
             class = "btn btn-outline-success mr-2"
             ><i class="bi bi-check2-square"></i>
           </button>
           <button 
-            (click)="editTodo(todo._id, content); $event.stopPropagation()"
+            (click)="editTodo(todo._id)"
             class = "btn btn-outline-primary mr-2"
             ><i class="bi bi-pencil"></i>
           </button>
           <button
-            (click)="removeTodo(todo._id); $event.stopPropagation()"
+            (click)="removeTodo(todo._id)"
             class = "btn btn-outline-danger"
             ><i class="bi bi-trash"></i>
           </button>
@@ -28,9 +28,16 @@
   </ng-container>
 </ul>
 
-<button class="btn btn-outline-primary mb-2 mr-2" (click)="openAddTodoForm(content)">Add todo</button>
+<!-- <ng-template #content> -->
+  <learning-workspace-add-edit-todo-form  [editMode]='false'>
 
-<ng-template #content let-modal>
+  </learning-workspace-add-edit-todo-form>
+<!-- </ng-template> -->
+
+
+<!-- <button class="btn btn-outline-primary mb-2 mr-2" (click)="openAddTodoForm(content)">Add todo</button> -->
+
+<!-- <ng-template #content let-modal>
   <div class="modal-header">
     <h4 class="modal-title">{{editTodoId ? "Edit" : "Add" }} Todo</h4>
     <button type="button" class="close" aria-label="Close" (click)="closeAddTodoForm()">
@@ -70,4 +77,4 @@
       </button>
     </div>
   </form>
-</ng-template>
+</ng-template> -->
