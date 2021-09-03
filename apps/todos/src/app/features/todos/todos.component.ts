@@ -14,17 +14,12 @@ import { Todo } from '@learning-workspace/api-interfaces';
 })
 export class TodosComponent implements OnInit, OnDestroy {
   public todos: Todo[] = [];
-  public todoForm: FormGroup;
-  public editTodoId = '';
   public selectedTodo: Todo;
+  public openAddEditForm = false;
 
   private subscription = new Subscription();
 
-  constructor(
-    private readonly apiService: ApiService,
-    private readonly fb: FormBuilder,
-    private readonly modalService: NgbModal
-  ) {}
+  constructor(private readonly apiService: ApiService) {}
 
   ngOnInit(): void {
     this.getTodosSubscription();
@@ -69,7 +64,6 @@ export class TodosComponent implements OnInit, OnDestroy {
   }
 
   public editTodo(id: string): void {
-    this.editTodoId = id;
     this.selectedTodo = this.todos.find((todo) => todo._id === id) as Todo;
   }
 
@@ -84,8 +78,16 @@ export class TodosComponent implements OnInit, OnDestroy {
     this.subscription.add(checkTodosSubscription);
   }
 
-  public todoIdentify(index: number, todo: Todo): string {
+  public todoIdentify(_index: number, todo: Todo): string {
     return todo._id;
+  }
+
+  public openAddEditTodoForm() {
+    this.openAddEditForm = true;
+  }
+
+  public closeAddEditTodoForm() {
+    this.openAddEditForm = false;
   }
 
   // TODO: change subscription to rxjs

@@ -1,7 +1,7 @@
-<!-- <ng-template #content let-modal> -->
+<ng-template #content let-dismiss="dismiss">
   <div class="modal-header">
     <h4 class="modal-title">{{editMode ? "Edit" : "Add" }} Todo</h4>
-    <button type="button" class="close" aria-label="Close" (click)="closeAddTodoForm()">
+    <button type="button" class="close" aria-label="Close" (click)="dismiss()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -32,10 +32,10 @@
     </div>
 
     <div class="modal-footer">
-      <button type="button" class="btn btn-light" (click)="closeAddTodoForm()">Close</button>
+      <button type="button" class="btn btn-light" (click)="dismiss()">Close</button>
       <button type="confirm" [disabled]="todoForm.invalid" class="btn btn-primary">
         {{editMode ? "Edit" : "Add" }} Todo
       </button>
     </div>
   </form>
-<!-- </ng-template> -->
+</ng-template>

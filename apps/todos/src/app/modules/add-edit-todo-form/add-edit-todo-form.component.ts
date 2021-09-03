@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, TemplateRef } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, TemplateRef, ViewChild, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -9,14 +9,18 @@ import { Todo } from '@learning-workspace/api-interfaces';
   templateUrl: './add-edit-todo-form.component.html',
   styleUrls: ['./add-edit-todo-form.component.scss'],
 })
-export class AddEditTodoFormComponent implements OnInit {
+export class AddEditTodoFormComponent implements OnInit, AfterViewInit {
+  @Input() modalCloseCallBack: () => void;
   @Input() editMode: boolean;
-  @Input() todo: Partial<Todo> = {
+  @Input() todoForEdit: Partial<Todo> = {
     title: '',
     description: '',
     ready: false,
   };
 
+  @Output() todo: Partial<Todo>;
+
+  @ViewChild('content') content: TemplateRef<unknown>;
   public todoForm: FormGroup;
 
   constructor(
@@ -28,29 +32,38 @@ export class AddEditTodoFormComponent implements OnInit {
     this.todoForm = this.AddEditTodoFormBuild();
   }
 
+  ngAfterViewInit() {
+    this.openAddTodoForm(this.content);
+  }
+
   private AddEditTodoFormBuild(): FormGroup {
     return this.fb.group({
-      title: [this.todo.title, [Validators.required, Validators.minLength(3)]],
+      title: [
+        this.todoForEdit.title,
+        [Validators.required, Validators.minLength(3)],
+      ],
       description: [
-        this.todo.description,
+        this.todoForEdit.description,
         [Validators.required, Validators.minLength(10)],
       ],
-      ready: [this.todo.ready],
+      ready: [this.todoForEdit.ready],
     });
   }
 
   public openAddTodoForm(content: TemplateRef<unknown>): void {
-    console.log('openAddTodoForm');
     this.modalService.open(content, { centered: true }).result.then(
       // eslint-disable-next-line @typescript-eslint/no-empty-function
       () => {},
-      () => this.closeAddTodoForm()
+      () => {
+        this.closeAddTodoForm();
+        this.modalCloseCallBack();
+      }
     );
   }
 
   public closeAddTodoForm(): void {
     console.log('closeAddTodoForm');
-    // this.todoForm.reset();
+    this.todoForm.reset();
     // this.modalService.dismissAll();
   }
 

@@ -28,53 +28,14 @@
   </ng-container>
 </ul>
 
-<!-- <ng-template #content> -->
-  <learning-workspace-add-edit-todo-form  [editMode]='false'>
+<button class="btn btn-outline-primary mb-2 mr-2" (click)="openAddEditTodoForm()">Add todo</button>
+
+<ng-container *ngIf="openAddEditForm">
+  <learning-workspace-add-edit-todo-form
+    [modalCloseCallBack] = "closeAddEditTodoForm"
+    [editMode]="false"
+    [todoForEdit]="selectedTodo"
+    >
 
   </learning-workspace-add-edit-todo-form>
-<!-- </ng-template> -->
-
-
-<!-- <button class="btn btn-outline-primary mb-2 mr-2" (click)="openAddTodoForm(content)">Add todo</button> -->
-
-<!-- <ng-template #content let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title">{{editTodoId ? "Edit" : "Add" }} Todo</h4>
-    <button type="button" class="close" aria-label="Close" (click)="closeAddTodoForm()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-
-  <form [formGroup]="todoForm" (ngSubmit)="addTodo()" class="modal-body">
-    <div>
-      <label for="title">Title: </label>
-      <input
-        id="title" 
-        type="text"
-        formControlName="title"
-        placeholder="Todo title"
-      >
-    </div>
-
-    <div>
-      <label for="description">Description: </label>
-      <textarea
-        id="description"
-        formControlName="description"
-        placeholder="Todo description"
-      ></textarea>
-    </div>
-
-    <div>
-      <label for="ready">Ready: </label>
-      <input id="ready" type="checkbox" formControlName="ready">
-    </div>
-
-    <div class="modal-footer">
-      <button type="button" class="btn btn-light" (click)="closeAddTodoForm()">Close</button>
-      <button type="confirm" [disabled]="todoForm.invalid" class="btn btn-primary">
-        {{editTodoId ? "Edit" : "Add" }} Todo
-      </button>
-    </div>
-  </form>
-</ng-template> -->
+</ng-container>
