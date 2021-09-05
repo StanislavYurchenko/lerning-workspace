@@ -10,6 +10,12 @@ export interface Todo {
   updatedAt: string;
 }
 
+export interface AddTodo {
+  title: string;
+  description: string;
+  ready: boolean;
+}
+
 export interface TodosResponse {
   data: {
     todos: Todo[];

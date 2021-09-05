@@ -1,8 +1,8 @@
-import { Component, Input, OnInit, AfterViewInit, TemplateRef, ViewChild, Output } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, TemplateRef, ViewChild, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { Todo } from '@learning-workspace/api-interfaces';
+import { AddTodo } from '@learning-workspace/api-interfaces';
 
 @Component({
   selector: 'learning-workspace-add-edit-todo-form',
@@ -10,18 +10,14 @@ import { Todo } from '@learning-workspace/api-interfaces';
   styleUrls: ['./add-edit-todo-form.component.scss'],
 })
 export class AddEditTodoFormComponent implements OnInit, AfterViewInit {
-  @Input() modalCloseCallBack: () => void;
-  @Input() editMode: boolean;
-  @Input() todoForEdit: Partial<Todo> = {
-    title: '',
-    description: '',
-    ready: false,
-  };
+  public todoForm: FormGroup;
 
-  @Output() todo: Partial<Todo>;
+  @Input() editMode: boolean;
+  @Input() todoForEdit: AddTodo;
+
+  @Output() addEditFormEvent = new EventEmitter<AddTodo | undefined>();
 
   @ViewChild('content') content: TemplateRef<unknown>;
-  public todoForm: FormGroup;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -39,14 +35,16 @@ export class AddEditTodoFormComponent implements OnInit, AfterViewInit {
   private AddEditTodoFormBuild(): FormGroup {
     return this.fb.group({
       title: [
-        this.todoForEdit.title,
+        this.editMode ? this.todoForEdit?.title : '',
         [Validators.required, Validators.minLength(3)],
       ],
       description: [
-        this.todoForEdit.description,
+        this.editMode ? this.todoForEdit?.description : '',
         [Validators.required, Validators.minLength(10)],
       ],
-      ready: [this.todoForEdit.ready],
+      ready: [
+        this.editMode ? this.todoForEdit?.ready : false
+      ],
     });
   }
 
@@ -55,19 +53,19 @@ export class AddEditTodoFormComponent implements OnInit, AfterViewInit {
       // eslint-disable-next-line @typescript-eslint/no-empty-function
       () => {},
       () => {
+        this.addEditFormEvent.emit();
         this.closeAddTodoForm();
-        this.modalCloseCallBack();
       }
     );
   }
 
   public closeAddTodoForm(): void {
-    console.log('closeAddTodoForm');
     this.todoForm.reset();
-    // this.modalService.dismissAll();
+    this.modalService.dismissAll();
   }
 
   public submitAddTodoForm(): void {
-    console.log('submitAddTodoForm');
+    this.addEditFormEvent.emit(this.todoForm.value);
+    this.closeAddTodoForm();
   }
 }

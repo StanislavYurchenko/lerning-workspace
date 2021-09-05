@@ -1,11 +1,9 @@
 import { Component, OnInit, OnDestroy, TemplateRef } from '@angular/core';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { ApiService } from 'libs/services/src/lib/api-services/api-services.service';
-import { Todo } from '@learning-workspace/api-interfaces';
+import { Todo, AddTodo } from '@learning-workspace/api-interfaces';
 
 @Component({
   selector: 'learning-workspace-todos',
@@ -16,6 +14,7 @@ export class TodosComponent implements OnInit, OnDestroy {
   public todos: Todo[] = [];
   public selectedTodo: Todo;
   public openAddEditForm = false;
+  public editMode = false;
 
   private subscription = new Subscription();
 
@@ -30,44 +29,75 @@ export class TodosComponent implements OnInit, OnDestroy {
   }
 
   public addTodo(): void {
-    // if (this.editTodoId) {
-    //   const removeTodosSubscription = this.apiService
-    //     .updateTodoById(this.editTodoId, this.todoForm.value)
-    //     .subscribe((updatedTodo) => {
-    //       this.todos = this.todos.map((todo) =>
-    //         todo._id === updatedTodo._id ? updatedTodo : todo
-    //       );
-    //       this.closeAddTodoForm();
-    //     });
-    //   this.subscription.add(removeTodosSubscription);
-    //   this.editTodoId = '';
-    //   return;
-    // }
-    // const getTodosSubscription = this.apiService
-    //   .addTodo(this.todoForm.value)
-    //   .subscribe((todo) => {
-    //     this.todos.push(todo);
-    //     this.closeAddTodoForm();
-    //   });
-    // this.subscription.add(getTodosSubscription);
+    this.editMode = false;
+    this.openAddEditTodoForm();
   }
 
   public removeTodo(id: string): void {
+    this.removeTodoSubscription(id);
+  }
+
+  public editTodo(id: string): void {
+    this.editMode = true;
+    this.selectedTodo = this.todos.find((todo) => todo._id === id) as Todo;
+    this.openAddEditTodoForm();
+  }
+
+  public checkTodo(id: string): void {
+    this.checkTodoSubscription(id);
+  }
+
+  public openAddEditTodoForm() {
+    this.openAddEditForm = !this.openAddEditForm;
+  }
+
+  public afterCloseAddEditTodoForm(todo: AddTodo | undefined) {
+    this.openAddEditForm = false;
+
+    if (!todo?.title) {
+      return;
+    }
+
+    if (this.editMode) {
+      this.editTodoSubscription(this.selectedTodo._id, todo);
+      this.editMode = false;
+      return;
+    }
+
+    this.addTodoSubscription(todo);
+  }
+
+  public todoIdentify(_index: number, todo: Todo): string {
+    return todo._id;
+  }
+
+  // TODO: change subscription to rxjs
+  private getTodosSubscription(): void {
+    const getTodosSubscription = this.apiService
+      .getTodos()
+      .subscribe((todos) => (this.todos = todos));
+    this.subscription.add(getTodosSubscription);
+  }
+
+  private addTodoSubscription(todo: AddTodo): void {
+    const getTodosSubscription = this.apiService
+      .addTodo(todo)
+      .subscribe((todo) => this.todos.push(todo));
+    this.subscription.add(getTodosSubscription);
+  }
+
+  private editTodoSubscription(id: string, todo: AddTodo): void {
     const removeTodosSubscription = this.apiService
-      .removeTodoById(id)
-      .subscribe((removedTodo) => {
-        return (this.todos = this.todos.filter(
-          (todo) => todo._id !== removedTodo._id
-        ));
+      .updateTodoById(id, todo)
+      .subscribe((updatedTodo) => {
+        this.todos = this.todos.map((todo) =>
+          todo._id === updatedTodo._id ? updatedTodo : todo
+        );
       });
     this.subscription.add(removeTodosSubscription);
   }
 
-  public editTodo(id: string): void {
-    this.selectedTodo = this.todos.find((todo) => todo._id === id) as Todo;
-  }
-
-  public checkTodo(id: string): void {
+  private checkTodoSubscription(id: string): void {
     const checkTodosSubscription = this.apiService
       .updateTodoById(id, { ready: true })
       .subscribe((updatedTodo) => {
@@ -78,23 +108,12 @@ export class TodosComponent implements OnInit, OnDestroy {
     this.subscription.add(checkTodosSubscription);
   }
 
-  public todoIdentify(_index: number, todo: Todo): string {
-    return todo._id;
-  }
-
-  public openAddEditTodoForm() {
-    this.openAddEditForm = true;
-  }
-
-  public closeAddEditTodoForm() {
-    this.openAddEditForm = false;
-  }
-
-  // TODO: change subscription to rxjs
-  private getTodosSubscription() {
-    const getTodosSubscription = this.apiService
-      .getTodos()
-      .subscribe((todos) => (this.todos = todos));
-    this.subscription.add(getTodosSubscription);
+  private removeTodoSubscription(id: string): void {
+    const removeTodosSubscription = this.apiService
+      .removeTodoById(id)
+      .subscribe((removedTodo) => {
+        this.todos = this.todos.filter((todo) => todo._id !== removedTodo._id);
+      });
+    this.subscription.add(removeTodosSubscription);
   }
 }

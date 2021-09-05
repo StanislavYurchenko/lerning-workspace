@@ -28,13 +28,13 @@
   </ng-container>
 </ul>
 
-<button class="btn btn-outline-primary mb-2 mr-2" (click)="openAddEditTodoForm()">Add todo</button>
+<button class="btn btn-outline-primary mb-2 mr-2" (click)="addTodo()">Add todo</button>
 
 <ng-container *ngIf="openAddEditForm">
   <learning-workspace-add-edit-todo-form
-    [modalCloseCallBack] = "closeAddEditTodoForm"
-    [editMode]="false"
+    [editMode]="editMode"
     [todoForEdit]="selectedTodo"
+    (addEditFormEvent)="afterCloseAddEditTodoForm($event)"
     >
 
   </learning-workspace-add-edit-todo-form>
