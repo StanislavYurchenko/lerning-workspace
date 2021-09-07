@@ -1,27 +1,27 @@
 <ng-container *ngIf="loading; else loadingTemplate">
   <div>
     <p>Title: </p>
-    <h3 [textContent]="todo.title"></h3>
+    <h3 [textContent]="todo?.title"></h3>
   </div>
 
   <div>
     <p>Description: </p>
-    <p [textContent]="todo.description"></p>
+    <p [textContent]="todo?.description"></p>
   </div>
 
   <div>
     <p>Id: </p>
-    <p [textContent]="todo._id"></p>
+    <p [textContent]="todo?._id"></p>
   </div>
 
   <div>
     <p>Created: </p>
-    <p [textContent]="todo.createdAt"></p>
+    <p [textContent]="todo?.createdAt"></p>
   </div>
 
   <div>
     <p>Updated: </p>
-    <p [textContent]="todo.updatedAt"></p>
+    <p [textContent]="todo?.updatedAt"></p>
   </div>
 </ng-container>
 

@@ -14,6 +14,7 @@ import { TodosComponent } from './features/todos/todos.component';
 import { PageNotFoundComponent } from './modules/page-not-found/page-not-found.component';
 import { HeaderComponent } from './modules/header/header.component';
 import { FooterComponent } from './modules/footer/footer.component';
+import { StopPropagationDirective } from './directives/stop-propagation/stop-propagation.directive';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { FooterComponent } from './modules/footer/footer.component';
     PageNotFoundComponent,
     HeaderComponent,
     FooterComponent,
+    StopPropagationDirective,
   ],
   imports: [
     FormsModule,
