@@ -1,26 +1,26 @@
-<ul *ngIf="todos.length" class="list-group">  
+<ul *ngIf="todos?.length" class="list-group">  
   <ng-container *ngFor="let todo of todos; trackBy:todoIdentify">
     <li role="button"
     class="border border-2 rounded p-1 mb-2 bg-light list-group-item"
     [ngClass] = 'todo.ready ? "border-success" : "border-primary"'
     >
-      <a [routerLink]="[todo._id]" class="d-flex justify-content-between">
+      <a [routerLink]="[todo.id]" class="d-flex justify-content-between">
         <h3 [textContent]="todo.title" class=""></h3>
         <div>
           <button *ngIf="!todo.ready"
-            (click)="checkTodo(todo._id); false"
+            (click)="checkTodo(todo.id); false"
             class = "btn btn-outline-success mr-2"
             learningWorkspaceStopPropagation
             ><i class="bi bi-check2-square"></i>
           </button>
           <button 
-            (click)="editTodo(todo._id); false"
+            (click)="editTodo(todo.id); false"
             class = "btn btn-outline-primary mr-2"
             learningWorkspaceStopPropagation
             ><i class="bi bi-pencil"></i>
           </button>
           <button
-            (click)="removeTodo(todo._id); false"
+            (click)="removeTodo(todo.id); false"
             class = "btn btn-outline-danger"
             learningWorkspaceStopPropagation
             ><i class="bi bi-trash"></i>

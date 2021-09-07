@@ -30,7 +30,11 @@ export class AppService {
         }
       );
 
-      return { data: { todos, total, limit: newLimit, page: newPage } };
+      const modifiedTodos = todos.map((todo) => this.changeIdKey(todo));
+
+      return {
+        data: { todos: modifiedTodos, total, limit: newLimit, page: newPage },
+      };
     } catch (error) {
       return { error };
     }
@@ -38,8 +42,9 @@ export class AppService {
 
   async getTodoById(contactId) {
     try {
+      const todo = await Todo.findOne({ _id: contactId });
       return {
-        data: await Todo.findOne({ _id: contactId }),
+        data: this.changeIdKey(todo),
       };
     } catch (error) {
       return { error };
@@ -48,8 +53,9 @@ export class AppService {
 
   async addTodo(data) {
     try {
+      const addedTodo = await Todo.create({ ready: false, ...data });
       return {
-        data: await Todo.create({ ready: false, ...data }),
+        data: this.changeIdKey(addedTodo),
       };
     } catch (error) {
       return { error };
@@ -58,10 +64,13 @@ export class AppService {
 
   async updateTodoById(contactId, data) {
     try {
+      const updatedTodo = await Todo.findOneAndUpdate(
+        { _id: contactId },
+        data,
+        { new: true }
+      );
       return {
-        data: await Todo.findOneAndUpdate({ _id: contactId }, data, {
-          new: true,
-        }),
+        data: this.changeIdKey(updatedTodo),
       };
     } catch (error) {
       return { error };
@@ -70,12 +79,18 @@ export class AppService {
 
   async removeTodoById(contactId) {
     try {
+      const deletedTodo = await Todo.findOneAndDelete({ _id: contactId });
       return {
-        data: await Todo.findOneAndDelete({ _id: contactId }),
+        data: this.changeIdKey(deletedTodo),
       };
     } catch (error) {
       return { error };
     }
   }
-}
 
+  // TODO: understand why doesn't work { _id, ..rest } = todo;
+  private changeIdKey(todo) {
+    const { _id, title, description, ready, createdAt, updatedAt } = todo;
+    return { id: _id, title, description, ready, createdAt, updatedAt };
+  }
+}

@@ -2,7 +2,7 @@ export interface Message {
   message: string;
 }
 export interface Todo {
-  _id: string;
+  id: string;
   title: string;
   description: string;
   ready: boolean;

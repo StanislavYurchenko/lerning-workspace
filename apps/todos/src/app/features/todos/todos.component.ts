@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, TemplateRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { ApiService } from 'libs/services/src/lib/api-services/api-services.service';
+import { ApiService } from '../../core/services';
 import { Todo, AddTodo } from '@learning-workspace/api-interfaces';
 
 @Component({
@@ -39,7 +39,7 @@ export class TodosComponent implements OnInit, OnDestroy {
 
   public editTodo(id: string): void {
     this.editMode = true;
-    this.selectedTodo = this.todos.find((todo) => todo._id === id) as Todo;
+    this.selectedTodo = this.todos.find((todo) => todo.id === id) as Todo;
     this.openAddEditTodoForm();
   }
 
@@ -59,7 +59,7 @@ export class TodosComponent implements OnInit, OnDestroy {
     }
 
     if (this.editMode) {
-      this.editTodoSubscription(this.selectedTodo._id, todo);
+      this.editTodoSubscription(this.selectedTodo.id, todo);
       this.editMode = false;
       return;
     }
@@ -68,7 +68,7 @@ export class TodosComponent implements OnInit, OnDestroy {
   }
 
   public todoIdentify(_index: number, todo: Todo): string {
-    return todo._id;
+    return todo.id;
   }
 
   // TODO: change subscription to rxjs
@@ -91,7 +91,7 @@ export class TodosComponent implements OnInit, OnDestroy {
       .updateTodoById(id, todo)
       .subscribe((updatedTodo) => {
         this.todos = this.todos.map((todo) =>
-          todo._id === updatedTodo._id ? updatedTodo : todo
+          todo.id === updatedTodo.id ? updatedTodo : todo
         );
       });
     this.subscription.add(removeTodosSubscription);
@@ -102,7 +102,7 @@ export class TodosComponent implements OnInit, OnDestroy {
       .updateTodoById(id, { ready: true })
       .subscribe((updatedTodo) => {
         this.todos = this.todos.map((todo) =>
-          todo._id === updatedTodo._id ? updatedTodo : todo
+          todo.id === updatedTodo.id ? updatedTodo : todo
         );
       });
     this.subscription.add(checkTodosSubscription);
@@ -112,7 +112,7 @@ export class TodosComponent implements OnInit, OnDestroy {
     const removeTodosSubscription = this.apiService
       .removeTodoById(id)
       .subscribe((removedTodo) => {
-        this.todos = this.todos.filter((todo) => todo._id !== removedTodo._id);
+        this.todos = this.todos.filter((todo) => todo.id !== removedTodo.id);
       });
     this.subscription.add(removeTodosSubscription);
   }
