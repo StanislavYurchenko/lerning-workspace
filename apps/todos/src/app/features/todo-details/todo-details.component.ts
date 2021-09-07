@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { ApiService } from 'libs/services/src/lib/api-services/api-services.service';
+import { ApiService } from '../../core/services';
 import { Todo } from '@learning-workspace/api-interfaces';
 
 @Component({
