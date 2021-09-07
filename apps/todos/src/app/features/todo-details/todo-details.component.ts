@@ -38,7 +38,7 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
       .getTodoById(this.todoId)
       .subscribe((todo) => {
         this.todo = todo;
-        this.loading = true;
+        this.loading = false;
       });
     this.subscription.add(getTodoSubscription);
   }
