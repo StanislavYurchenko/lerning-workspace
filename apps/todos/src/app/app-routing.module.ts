@@ -1,12 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AboutComponent } from './modules/about/about.component';
-import { TodoDetailsComponent } from './features/todo-details/todo-details.component';
-import { PageNotFoundComponent } from './modules/page-not-found/page-not-found.component';
-
 const routes: Routes = [
-  { path: 'about', component: AboutComponent },
+  {
+    path: 'about',
+    loadChildren: () =>
+      import('./modules/about/about.module').then(
+        (module) => module.AboutModule
+      ),
+  },
   {
     path: 'todos',
     loadChildren: () =>
@@ -14,9 +16,21 @@ const routes: Routes = [
         (module) => module.TodosModule
       ),
   },
-  { path: 'todos/:id', component: TodoDetailsComponent },
+  {
+    path: 'todos/:id',
+    loadChildren: () =>
+      import('./features/todo-details/todo-details.module').then(
+        (module) => module.TodoDetailsModule
+      ),
+  },
   { path: '', redirectTo: '/about', pathMatch: 'full' },
-  { path: '**', component: PageNotFoundComponent },
+  {
+    path: '**',
+    loadChildren: () =>
+      import('./modules/page-not-found/page-not-found.module').then(
+        (module) => module.PageNotFoundModule
+      ),
+  },
 ];
 
 @NgModule({

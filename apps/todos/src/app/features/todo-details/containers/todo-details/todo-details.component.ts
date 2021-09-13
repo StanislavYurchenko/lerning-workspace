@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { Todo } from '@learning-workspace/api-interfaces';
-import { ApiService } from '../../core/services';
+import { ApiService } from '../../../../core/services';
 
 @Component({
   selector: 'learning-workspace-todo-details',
