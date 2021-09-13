@@ -11,7 +11,7 @@ import { ApiService } from '../../core/services';
   styleUrls: ['./todo-details.component.scss'],
 })
 export class TodoDetailsComponent implements OnInit, OnDestroy {
-  public todoId: string;
+  public todoId = '';
   public todo: Todo;
   public loading = true;
 

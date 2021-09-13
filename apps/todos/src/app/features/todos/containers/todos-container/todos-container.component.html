@@ -1,0 +1,19 @@
+<ul *ngIf="todos?.length" class="list-group">  
+  <ng-container *ngFor="let todo of todos; trackBy:todoIdentify">
+    <learning-workspace-todo-item [todo]="todo" (todoAction)="todoActionRun($event, todo.id)">
+
+    </learning-workspace-todo-item>
+  </ng-container>
+</ul>
+
+<button class="btn btn-outline-primary mb-2 mr-2" (click)="addTodo()">Add todo</button>
+
+<ng-container *ngIf="openAddEditForm">
+  <learning-workspace-add-edit-todo-form
+    [editMode]="editMode"
+    [todoForEdit]="selectedTodo"
+    (addEditFormEvent)="afterCloseAddEditTodoForm($event)"
+    >
+
+  </learning-workspace-add-edit-todo-form>
+</ng-container>

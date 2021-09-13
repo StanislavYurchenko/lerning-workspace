@@ -2,20 +2,20 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { Todo, AddTodo } from '@learning-workspace/api-interfaces';
-import { ApiService } from '../../core/services';
-import { TodoActionEnum } from '../../core/enums';
+import { ApiService } from '../../../../core/services';
+import { TodoActionEnum } from '../../enums';
 
 @Component({
-  selector: 'learning-workspace-todos',
-  templateUrl: './todos.component.html',
-  styleUrls: ['./todos.component.scss'],
+  selector: 'learning-workspace-todos-container',
+  templateUrl: './todos-container.component.html',
+  styleUrls: ['./todos-container.component.scss'],
 })
-export class TodosComponent implements OnInit, OnDestroy {
+export class TodosContainerComponent implements OnInit, OnDestroy {
   public todos: Todo[] = [];
   public selectedTodo: Todo;
   public openAddEditForm = false;
   public editMode = false;
-  public todoAction: string;
+  public todoAction = '';
 
   private subscription = new Subscription();
 

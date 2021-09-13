@@ -11,33 +11,30 @@ import {
   PageNotFoundComponent,
   HeaderComponent,
   FooterComponent,
-  AddEditTodoFormModule,
 } from './modules';
-import { TodoDetailsComponent, TodosComponent } from './features';
+import { TodoDetailsComponent, TodosModule } from './features';
 
 import { StopPropagationDirective } from './core/directives';
-import { TodoItemComponent } from './features/todo-item/todo-item.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AboutComponent,
     TodoDetailsComponent,
-    TodosComponent,
     PageNotFoundComponent,
     HeaderComponent,
     FooterComponent,
     StopPropagationDirective,
-    TodoItemComponent,
+
   ],
   imports: [
     FormsModule,
     ReactiveFormsModule,
     BrowserModule,
     HttpClientModule,
+    TodosModule,
     AppRoutingModule,
     NgbModule,
-    AddEditTodoFormModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { Todo } from '@learning-workspace/api-interfaces';
-import { TodoActionEnum } from '../../core/enums';
+import { TodoActionEnum } from '../../enums';
 
 @Component({
   selector: 'learning-workspace-todo-item',
