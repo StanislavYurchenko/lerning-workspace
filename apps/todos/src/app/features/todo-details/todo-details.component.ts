@@ -2,12 +2,11 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { ApiService } from '../../core/services';
 import { Todo } from '@learning-workspace/api-interfaces';
+import { ApiService } from '../../core/services';
 
 @Component({
-  selector: 'learning-workspace-todo',
+  selector: 'learning-workspace-todo-details',
   templateUrl: './todo-details.component.html',
   styleUrls: ['./todo-details.component.scss'],
 })
@@ -33,7 +32,7 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
   }
 
   // TODO: change subscription to rxjs
-  private getTodoSubscription() {
+  private getTodoSubscription(): void {
     const getTodoSubscription = this.apiService
       .getTodoById(this.todoId)
       .subscribe((todo) => {
@@ -43,7 +42,7 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
     this.subscription.add(getTodoSubscription);
   }
 
-  private getTodoIdFromRoute() {
+  private getTodoIdFromRoute(): string {
     return this.route.snapshot.params.id;
   }
 }

@@ -1,9 +1,9 @@
-import { Component, OnInit, OnDestroy, TemplateRef } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { ApiService } from '../../core/services';
 import { Todo, AddTodo } from '@learning-workspace/api-interfaces';
+import { ApiService } from '../../core/services';
+import { TodoActionEnum } from '../../core/enums';
 
 @Component({
   selector: 'learning-workspace-todos',
@@ -15,6 +15,7 @@ export class TodosComponent implements OnInit, OnDestroy {
   public selectedTodo: Todo;
   public openAddEditForm = false;
   public editMode = false;
+  public todoAction: string;
 
   private subscription = new Subscription();
 
@@ -33,25 +34,27 @@ export class TodosComponent implements OnInit, OnDestroy {
     this.openAddEditTodoForm();
   }
 
-  public removeTodo(id: string): void {
-    this.removeTodoSubscription(id);
+  public todoActionRun(action: string, id: string): void {
+    switch (action) {
+      case TodoActionEnum.check:
+        this.checkTodo(id);
+        break;
+
+      case TodoActionEnum.edit:
+        this.editTodo(id);
+        break;
+
+      case TodoActionEnum.remove:
+        this.removeTodo(id);
+        break;
+    }
   }
 
-  public editTodo(id: string): void {
-    this.editMode = true;
-    this.selectedTodo = this.todos.find((todo) => todo.id === id) as Todo;
-    this.openAddEditTodoForm();
-  }
-
-  public checkTodo(id: string): void {
-    this.checkTodoSubscription(id);
-  }
-
-  public openAddEditTodoForm() {
+  public openAddEditTodoForm(): void {
     this.openAddEditForm = !this.openAddEditForm;
   }
 
-  public afterCloseAddEditTodoForm(todo: AddTodo | undefined) {
+  public afterCloseAddEditTodoForm(todo: AddTodo | undefined): void {
     this.openAddEditForm = false;
 
     if (!todo?.title) {
@@ -69,6 +72,20 @@ export class TodosComponent implements OnInit, OnDestroy {
 
   public todoIdentify(_index: number, todo: Todo): string {
     return todo.id;
+  }
+
+  private removeTodo(id: string): void {
+    this.removeTodoSubscription(id);
+  }
+
+  private editTodo(id: string): void {
+    this.editMode = true;
+    this.selectedTodo = this.todos.find((todo) => todo.id === id) as Todo;
+    this.openAddEditTodoForm();
+  }
+
+  private checkTodo(id: string): void {
+    this.checkTodoSubscription(id);
   }
 
   // TODO: change subscription to rxjs

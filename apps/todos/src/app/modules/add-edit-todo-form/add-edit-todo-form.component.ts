@@ -10,12 +10,12 @@ import { AddTodo } from '@learning-workspace/api-interfaces';
   styleUrls: ['./add-edit-todo-form.component.scss'],
 })
 export class AddEditTodoFormComponent implements OnInit, AfterViewInit {
-  public todoForm: FormGroup;
-
   @Input() editMode: boolean;
   @Input() todoForEdit: AddTodo;
-
+  
   @Output() addEditFormEvent = new EventEmitter<AddTodo | undefined>();
+
+  public todoForm: FormGroup;
 
   @ViewChild('content') content: TemplateRef<unknown>;
 
@@ -25,14 +25,14 @@ export class AddEditTodoFormComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    this.todoForm = this.AddEditTodoFormBuild();
+    this.todoForm = this.addEditTodoFormBuild();
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.openAddTodoForm(this.content);
   }
 
-  private AddEditTodoFormBuild(): FormGroup {
+  private addEditTodoFormBuild(): FormGroup {
     return this.fb.group({
       title: [
         this.editMode ? this.todoForEdit?.title : '',

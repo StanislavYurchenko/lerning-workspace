@@ -16,6 +16,7 @@ import {
 import { TodoDetailsComponent, TodosComponent } from './features';
 
 import { StopPropagationDirective } from './core/directives';
+import { TodoItemComponent } from './features/todo-item/todo-item.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { StopPropagationDirective } from './core/directives';
     HeaderComponent,
     FooterComponent,
     StopPropagationDirective,
+    TodoItemComponent,
   ],
   imports: [
     FormsModule,

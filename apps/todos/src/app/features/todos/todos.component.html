@@ -1,6 +1,6 @@
 <ul *ngIf="todos?.length" class="list-group">  
   <ng-container *ngFor="let todo of todos; trackBy:todoIdentify">
-    <li role="button"
+    <!-- <li role="button"
     class="border border-2 rounded p-1 mb-2 bg-light list-group-item"
     [ngClass] = 'todo.ready ? "border-success" : "border-primary"'
     >
@@ -27,7 +27,10 @@
           </button>
         </div>
       </a>
-    </li>
+    </li> -->
+    <learning-workspace-todo-item [todo]="todo" (todoAction)="todoActionRun($event, todo.id)">
+
+    </learning-workspace-todo-item>
   </ng-container>
 </ul>
 
