@@ -6,20 +6,18 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import {
-  HeaderComponent,
-  FooterComponent,
-} from './modules';
+import { HeaderModule, FooterModule } from './modules';
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
-    FooterComponent,
   ],
   imports: [
     FormsModule,
+    FooterModule,
+    HeaderModule,
     ReactiveFormsModule,
     BrowserModule,
     HttpClientModule,

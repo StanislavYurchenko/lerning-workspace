@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AddEditTodoFormComponent } from './add-edit-todo-form.component';
+import { AddEditTodoFormComponent } from './container';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
