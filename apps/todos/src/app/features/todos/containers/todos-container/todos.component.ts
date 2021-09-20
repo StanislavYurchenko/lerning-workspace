@@ -6,11 +6,11 @@ import { ApiService } from '../../../../core/services';
 import { TodoActionEnum } from '../../enums';
 
 @Component({
-  selector: 'learning-workspace-todos-container',
-  templateUrl: './todos-container.component.html',
-  styleUrls: ['./todos-container.component.scss'],
+  selector: 'learning-workspace-todos',
+  templateUrl: './todos.component.html',
+  styleUrls: ['./todos.component.scss'],
 })
-export class TodosContainerComponent implements OnInit, OnDestroy {
+export class TodosComponent implements OnInit, OnDestroy {
   public todos: Todo[] = [];
   public selectedTodo: Todo;
   public openAddEditForm = false;

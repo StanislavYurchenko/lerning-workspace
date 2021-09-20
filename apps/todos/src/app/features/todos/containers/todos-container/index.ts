@@ -1,1 +1,1 @@
-export * from './todos-container.component';
+export * from './todos.component';

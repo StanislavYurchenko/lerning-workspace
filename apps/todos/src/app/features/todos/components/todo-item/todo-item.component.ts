@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { Todo } from '@learning-workspace/api-interfaces';
 import { TodoActionEnum } from '../../enums';
@@ -7,6 +7,7 @@ import { TodoActionEnum } from '../../enums';
   selector: 'learning-workspace-todo-item',
   templateUrl: './todo-item.component.html',
   styleUrls: ['./todo-item.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TodoItemComponent {
   @Input() todo: Partial<Todo>;

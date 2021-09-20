@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Route } from '@angular/router';
 
-import { TodosContainerComponent } from './containers';
+import { TodosComponent } from './containers';
 
 const routes: Route[] = [
   {
     path: '',
-    component: TodosContainerComponent,
+    component: TodosComponent,
   },
 ];
 
