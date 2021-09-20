@@ -90,47 +90,51 @@ export class TodosComponent implements OnInit, OnDestroy {
 
   // TODO: change subscription to rxjs
   private getTodosSubscription(): void {
-    const getTodosSubscription = this.apiService
+    this.subscription.add(this.apiService
       .getTodos()
-      .subscribe((todos) => (this.todos = todos));
-    this.subscription.add(getTodosSubscription);
+      .subscribe((todos) => (this.todos = todos))
+    );
   }
 
   private addTodoSubscription(todo: AddTodo): void {
-    const getTodosSubscription = this.apiService
-      .addTodo(todo)
-      .subscribe((todo) => this.todos.push(todo));
-    this.subscription.add(getTodosSubscription);
+    this.subscription.add(
+      this.apiService
+        .addTodo(todo)
+        .subscribe((todo) => this.todos.push(todo))
+    );
   }
 
   private editTodoSubscription(id: string, todo: AddTodo): void {
-    const removeTodosSubscription = this.apiService
-      .updateTodoById(id, todo)
-      .subscribe((updatedTodo) => {
-        this.todos = this.todos.map((todo) =>
-          todo.id === updatedTodo.id ? updatedTodo : todo
-        );
-      });
-    this.subscription.add(removeTodosSubscription);
+    this.subscription.add(
+      this.apiService
+        .updateTodoById(id, todo)
+        .subscribe((updatedTodo) => {
+          this.todos = this.todos.map((todo) =>
+            todo.id === updatedTodo.id ? updatedTodo : todo
+          );
+        })
+    );
   }
 
   private checkTodoSubscription(id: string): void {
-    const checkTodosSubscription = this.apiService
-      .updateTodoById(id, { ready: true })
-      .subscribe((updatedTodo) => {
-        this.todos = this.todos.map((todo) =>
-          todo.id === updatedTodo.id ? updatedTodo : todo
-        );
-      });
-    this.subscription.add(checkTodosSubscription);
+    this.subscription.add(
+      this.apiService
+        .updateTodoById(id, { ready: true })
+        .subscribe((updatedTodo) => {
+          this.todos = this.todos.map((todo) =>
+            todo.id === updatedTodo.id ? updatedTodo : todo
+          );
+        })
+    );
   }
 
   private removeTodoSubscription(id: string): void {
-    const removeTodosSubscription = this.apiService
-      .removeTodoById(id)
-      .subscribe((removedTodo) => {
-        this.todos = this.todos.filter((todo) => todo.id !== removedTodo.id);
-      });
-    this.subscription.add(removeTodosSubscription);
+    this.subscription.add(
+      this.apiService.
+        removeTodoById(id).
+        subscribe((removedTodo) => {
+          this.todos = this.todos.filter((todo) => todo.id !== removedTodo.id);
+        })
+    );
   }
 }

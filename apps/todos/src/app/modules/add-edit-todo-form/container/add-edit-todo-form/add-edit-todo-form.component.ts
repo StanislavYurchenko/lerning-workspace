@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, AfterViewInit, TemplateRef, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, TemplateRef, ViewChild, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -8,11 +8,12 @@ import { AddTodo } from '@learning-workspace/api-interfaces';
   selector: 'learning-workspace-add-edit-todo-form',
   templateUrl: './add-edit-todo-form.component.html',
   styleUrls: ['./add-edit-todo-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddEditTodoFormComponent implements OnInit, AfterViewInit {
   @Input() editMode: boolean;
   @Input() todoForEdit: AddTodo;
-  
+
   @Output() addEditFormEvent = new EventEmitter<AddTodo | undefined>();
 
   public todoForm: FormGroup;
@@ -42,9 +43,7 @@ export class AddEditTodoFormComponent implements OnInit, AfterViewInit {
         this.editMode ? this.todoForEdit?.description : '',
         [Validators.required, Validators.minLength(10)],
       ],
-      ready: [
-        this.editMode ? this.todoForEdit?.ready : false
-      ],
+      ready: [this.editMode ? this.todoForEdit?.ready : false],
     });
   }
 
