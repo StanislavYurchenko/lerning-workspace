@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { StopPropagationDirective } from '../../core/directives';
+import { DirectivesModule } from '../../core/directives/directives.module';
 
 import { AddEditTodoFormModule } from '../../modules';
 import { TodosRouterModule } from './todos-routing.module';
@@ -14,10 +14,10 @@ import { TodoItemComponent } from './components';
   declarations: [
     TodosContainerComponent,
     TodoItemComponent,
-    StopPropagationDirective,
   ],
   imports: [
     CommonModule,
+    DirectivesModule,
     AddEditTodoFormModule,
     TodosRouterModule,
     RouterModule,
