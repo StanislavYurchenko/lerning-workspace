@@ -15,4 +15,4 @@ import { ReactiveFormsModule } from '@angular/forms';
     AddEditTodoFormComponent
   ]
 })
-export class AddEditTodoFormModule { }
+export class AddEditTodoFormModule {}

@@ -16,4 +16,4 @@ import { PageNotFoundComponent } from './container';
     RouterModule,
   ]
 })
-export class PageNotFoundModule { }
+export class PageNotFoundModule {}

@@ -1,3 +1,3 @@
 import { NgModule } from '@angular/core';
 
-@NgModule({ }) export class ServicesModule {}
+@NgModule({}) export class ServicesModule {}

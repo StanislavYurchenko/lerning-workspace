@@ -14,4 +14,4 @@ const routes: Route[] = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class PageNotFoundRouterModule { }
+export class PageNotFoundRouterModule {}

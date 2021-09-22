@@ -3,7 +3,7 @@ import { Message } from '@learning-workspace/api-interfaces';
 import Todo = require('../model/schemas/Todo'); 
 @Injectable()
 export class AppService {
-  // constructor(private readonly todo: Todo) { } // TODO fix it
+  // constructor(private readonly todo: Todo) {} // TODO fix it
 
   getData(): Message {
     return { message: 'Welcome to api!' };

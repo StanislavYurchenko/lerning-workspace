@@ -16,4 +16,4 @@ import { AboutComponent } from './containers';
     AboutRouterModule,
   ]
 })
-export class AboutModule { }
+export class AboutModule {}
