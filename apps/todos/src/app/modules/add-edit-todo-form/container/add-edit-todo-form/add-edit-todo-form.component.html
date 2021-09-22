@@ -1,0 +1,41 @@
+<ng-template #content>
+  <div class="modal-header">
+    <h4 class="modal-title">{{editMode ? "Edit" : "Add" }} Todo</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeAddTodoForm()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <form [formGroup]="todoForm" (ngSubmit)="submitAddTodoForm()" class="modal-body">
+    <div>
+      <label for="title">Title: </label>
+      <input
+        id="title" 
+        type="text"
+        formControlName="title"
+        placeholder="Todo title"
+      >
+    </div>
+
+    <div>
+      <label for="description">Description: </label>
+      <textarea
+        id="description"
+        formControlName="description"
+        placeholder="Todo description"
+      ></textarea>
+    </div>
+
+    <div>
+      <label for="ready">Ready: </label>
+      <input id="ready" type="checkbox" formControlName="ready">
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="closeAddTodoForm()">Close</button>
+      <button type="confirm" [disabled]="todoForm.invalid" class="btn btn-primary">
+        {{editMode ? "Edit" : "Add" }} Todo
+      </button>
+    </div>
+  </form>
+</ng-template>

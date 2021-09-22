@@ -2,12 +2,18 @@ export interface Message {
   message: string;
 }
 export interface Todo {
-  _id: string;
+  id: string;
   title: string;
   description: string;
   ready: boolean;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface AddTodo {
+  title: string;
+  description: string;
+  ready: boolean;
 }
 
 export interface TodosResponse {

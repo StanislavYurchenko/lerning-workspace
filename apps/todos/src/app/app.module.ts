@@ -2,38 +2,27 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
-import { AboutComponent } from './about/about.component';
-import { TodoComponent } from './todo/todo.component';
-import { TodosComponent } from './todos/todos.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
+import { HeaderModule, FooterModule } from './modules';
 
-import { ServicesModule } from '@learning-workspace/services';
-// import { ApiService } from 'libs/services/src/lib/api-services/api-services.service';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    AboutComponent,
-    TodoComponent,
-    TodosComponent,
-    PageNotFoundComponent,
-    HeaderComponent,
-    FooterComponent,
   ],
   imports: [
     FormsModule,
+    FooterModule,
+    HeaderModule,
     ReactiveFormsModule,
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
     NgbModule,
-    ServicesModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

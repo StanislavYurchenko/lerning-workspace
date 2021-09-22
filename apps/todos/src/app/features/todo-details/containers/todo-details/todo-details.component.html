@@ -1,0 +1,31 @@
+<ng-container *ngIf="!loading; else loadingTemplate">
+  <div>
+    <p>Title: </p>
+    <h3 [textContent]="todo.title"></h3>
+  </div>
+
+  <div>
+    <p>Description: </p>
+    <p [textContent]="todo.description"></p>
+  </div>
+
+  <div>
+    <p>Id: </p>
+    <p [textContent]="todo.id"></p>
+  </div>
+
+  <div>
+    <p>Created: </p>
+    <p [textContent]="todo.createdAt | date"></p>
+  </div>
+
+  <div>
+    <p>Updated: </p>
+    <p [textContent]="todo.updatedAt | date"></p>
+  </div>
+
+  <a routerLink="/todos/">Back</a>
+</ng-container>
+
+
+<ng-template #loadingTemplate>Loading...</ng-template>
