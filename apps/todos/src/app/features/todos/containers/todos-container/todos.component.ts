@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
+
 import { Subscription } from 'rxjs';
 
 import { Todo, AddTodo } from '@learning-workspace/api-interfaces';
@@ -105,17 +106,21 @@ export class TodosComponent implements OnInit, OnDestroy {
 
   private addTodoSubscription(todo: AddTodo): void {
     this.subscription.add(
-      this.apiService.addTodo(todo).subscribe((todo) => this.todos.push(todo))
+      this.apiService
+        .addTodo(todo)
+        .subscribe((todo) => this.todos.push(todo))
     );
   }
 
   private editTodoSubscription(id: string, todo: AddTodo): void {
     this.subscription.add(
-      this.apiService.updateTodoById(id, todo).subscribe((updatedTodo) => {
-        this.todos = this.todos.map((todo) =>
-          todo.id === updatedTodo.id ? updatedTodo : todo
-        );
-      })
+      this.apiService
+        .updateTodoById(id, todo)
+        .subscribe((updatedTodo) => {
+          this.todos = this.todos.map((todo) =>
+            todo.id === updatedTodo.id ? updatedTodo : todo
+          );
+        })
     );
   }
 
@@ -133,17 +138,20 @@ export class TodosComponent implements OnInit, OnDestroy {
 
   private removeTodoSubscription(id: string): void {
     this.subscription.add(
-      this.apiService.removeTodoById(id).subscribe((removedTodo) => {
-        this.todos = this.todos.filter((todo) => todo.id !== removedTodo.id);
-      })
+      this.apiService.
+        removeTodoById(id).
+        subscribe((removedTodo) => {
+          this.todos = this.todos.filter((todo) => todo.id !== removedTodo.id);
+        })
     );
   }
 
   private paramsSubscription(): void {
     this.subscription.add(
-      this.activatedRoute.queryParams.subscribe((params: Params) => {
-        this.params = params;
-      })
+      this.activatedRoute.queryParams
+        .subscribe((params: Params) => {
+          this.params = params;
+        })
     );
   }
 }
