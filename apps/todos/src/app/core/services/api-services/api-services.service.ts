@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Params } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import {
   Message,
@@ -19,9 +20,9 @@ export class ApiService {
     return this.http.get<Message>('/api/hello');
   }
 
-  getTodos(): Observable<Todo[]> {
+  getTodos(params: Params): Observable<Todo[]> {
     return this.http
-      .get<TodosResponse>('/api/todos')
+      .get<TodosResponse>('/api/todos', { params })
       .pipe(map((res) => res.data.todos));
   }
 
