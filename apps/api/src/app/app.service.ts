@@ -10,25 +10,31 @@ export class AppService {
   }
 
   async getTodos(req) {
-    const { sortBy, sortByDesc, select, limit = 5, page = 1 } = req.query;
+    const { search, sortBy, sortByDesc, limit = 10, page = 1 } = req.query;
+
+    const searchQuery = {
+      $or: [
+        { 'title': { '$regex': new RegExp(search) } },
+        { 'description': { '$regex': new RegExp(search) } },
+      ],
+    };
+
+    const paginateOptions = {
+      limit: limit < 100 ? limit : 100,
+      page,
+      sort: {
+        ...(sortBy ? { [`${sortBy}`]: 1 } : {}),
+        ...(sortByDesc ? { [`${sortByDesc}`]: -1 } : {}),
+      },
+    };
+
     try {
       const {
         docs: todos,
         totalDocs: total,
         limit: newLimit,
         page: newPage,
-      } = await Todo.paginate(
-        {},
-        {
-          limit,
-          page,
-          sort: {
-            ...(sortBy ? { [`${sortBy}`]: 1 } : {}),
-            ...(sortByDesc ? { [`${sortByDesc}`]: -1 } : {}),
-          },
-          select: select ? select.split('|').join(' ') : '',
-        }
-      );
+      } = await Todo.paginate(searchQuery, paginateOptions);
 
       const modifiedTodos = todos.map((todo) => this.changeIdKey(todo));
 
@@ -88,7 +94,7 @@ export class AppService {
     }
   }
 
-  // TODO: understand why doesn't work { _id, ..rest } = todo;
+  // TODO: understand why doesn't work { _id, ...rest } = todo;
   private changeIdKey(todo) {
     const { _id, title, description, ready, createdAt, updatedAt } = todo;
     return { id: _id, title, description, ready, createdAt, updatedAt };

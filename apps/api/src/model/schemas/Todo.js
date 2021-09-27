@@ -1,6 +1,6 @@
-const mongoose = require('mongoose')
-const mongoosePaginate = require('mongoose-paginate-v2')
-const { Schema } = mongoose
+const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
+const { Schema } = mongoose;
 
 
 const todoSchema = new Schema({
@@ -10,10 +10,10 @@ const todoSchema = new Schema({
   },
   description: String,
   ready: Boolean
-}, { versionKey: false, timestamps: true })
+}, { versionKey: false, timestamps: true });
 
-todoSchema.plugin(mongoosePaginate)
+todoSchema.plugin(mongoosePaginate);
 
-const Todo = mongoose.model('todo', todoSchema)
+const Todo = mongoose.model('todo', todoSchema);
 
-module.exports = Todo
+module.exports = Todo;
