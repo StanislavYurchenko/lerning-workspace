@@ -10,18 +10,11 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 
-import { Message } from '@learning-workspace/api-interfaces';
-
 import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
-
-  @Get('hello')
-  getData(): Message {
-    return this.appService.getData();
-  }
 
   @Get('todos')
   async getTodos(@Req() req: Request) {

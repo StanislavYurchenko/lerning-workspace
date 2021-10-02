@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { DirectivesModule } from '../../core/directives';
 
 import { AddEditTodoFormModule } from '../../modules';
+import { SearchModule } from '../../modules';
 import { TodosRouterModule } from './todos-routing.module';
 
 import { TodosComponent } from './containers';
@@ -19,6 +20,7 @@ import { TodoItemComponent } from './components';
     CommonModule,
     DirectivesModule,
     AddEditTodoFormModule,
+    SearchModule,
     TodosRouterModule,
     RouterModule,
   ],

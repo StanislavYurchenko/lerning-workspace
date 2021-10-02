@@ -24,7 +24,7 @@ export class TodosComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly apiService: ApiService,
-    private readonly activatedRoute: ActivatedRoute
+    private readonly activatedRoute: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
@@ -151,6 +151,7 @@ export class TodosComponent implements OnInit, OnDestroy {
       this.activatedRoute.queryParams
         .subscribe((params: Params) => {
           this.params = params;
+          this.getTodosSubscription(this.params);
         })
     );
   }

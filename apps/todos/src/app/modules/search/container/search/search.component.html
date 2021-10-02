@@ -1,0 +1,7 @@
+<form class="pb-4 d-flex align-items-center" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+  <div class="mr-2">
+    <label class="mr-2" for="searchQuery">Search: </label>
+    <input id="searchQuery" type="text" formControlName="search">
+  </div>
+  <button class="btn btn-primary" type="submit" [disabled]="!searchForm.valid">Find</button>
+</form>

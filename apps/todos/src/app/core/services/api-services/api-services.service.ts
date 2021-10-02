@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Params } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import {
-  Message,
   Todo,
   TodosResponse,
   TodoResponse,
@@ -15,10 +14,6 @@ import { map } from 'rxjs/operators';
 })
 export class ApiService {
   constructor(private readonly http: HttpClient) {}
-
-  getHello() {
-    return this.http.get<Message>('/api/hello');
-  }
 
   getTodos(params: Params): Observable<Todo[]> {
     return this.http
