@@ -12,8 +12,12 @@ export class AppService {
   async getTodos(req) {
     const { search, sortBy, sortByDesc, limit = 10, page = 1 } = req.query;
     const regexp = new RegExp(search, 'i');
+
     const searchQuery = {
-      $or: [{ title: { $regex: regexp } }, { description: { $regex: regexp } }],
+      $or: [
+        { 'title': { '$regex': regexp } },
+        { 'description': { '$regex': regexp } },
+      ],
     };
 
     const paginateOptions = {
