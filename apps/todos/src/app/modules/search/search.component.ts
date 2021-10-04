@@ -7,30 +7,19 @@ import { Router } from '@angular/router';
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
 })
-export class SearchComponent implements OnInit{
+export class SearchComponent implements OnInit {
   public searchForm: FormGroup;
 
-  @Output() searchAction? = new EventEmitter();
+  @Output() search: EventEmitter<string> = new EventEmitter();
 
-  constructor(
-    private fb: FormBuilder,
-    private router: Router
-  ) {}
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.createFormControl();
   }
 
   onSubmit(): void {
-    this.router.navigate(
-      [],
-      {
-        queryParams: {
-          search: this.searchForm.get('search')?.value,
-        },
-      },
-    );
-    this.searchAction?.emit('searchAction');
+    this.search.emit(this.searchForm.get('search')?.value);
   }
 
   private createFormControl(): void {

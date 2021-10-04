@@ -1,18 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AddEditTodoFormComponent } from './container';
 import { ReactiveFormsModule } from '@angular/forms';
+
+import { AddEditTodoFormComponent } from './add-edit-todo-form.component';
 
 @NgModule({
   declarations: [
-    AddEditTodoFormComponent
+    AddEditTodoFormComponent,
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
   ],
   exports: [
-    AddEditTodoFormComponent
+    AddEditTodoFormComponent,
   ]
 })
 export class AddEditTodoFormModule {}
