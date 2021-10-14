@@ -1,19 +1,17 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
 @Component({
-  selector: 'learning-workspace-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss'],
+  selector: 'learning-workspace-search-new',
+  templateUrl: './search-new.component.html',
+  styleUrls: ['./search-new.component.scss'],
 })
-export class SearchComponent implements OnInit, OnDestroy {
+export class SearchNewComponent implements OnInit, OnDestroy {
   public searchForm: FormGroup;
 
   @Output() search: EventEmitter<string> = new EventEmitter();
-
-  @Input() initQuery = '';
 
   private subscription = new Subscription();
   private debounceTime = 500; //ms
@@ -48,7 +46,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   private createFormControl(): void {
     this.searchForm = this.fb.group({
-      search: [this.initQuery, [Validators.minLength(3)]],
+      search: ['', [Validators.minLength(3)]],
     });
   }
 }

@@ -1,4 +1,8 @@
-<learning-workspace-search (search)="searchHandle($event)"></learning-workspace-search>
+<learning-workspace-search 
+  [initQuery]='searchInit' 
+  (search)="searchHandle($event)" 
+  #search
+></learning-workspace-search>
 
 <ul *ngIf="todos?.length" class="list-group">  
   <ng-container *ngFor="let todo of todos; trackBy:todoIdentify">

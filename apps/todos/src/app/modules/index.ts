@@ -4,3 +4,4 @@ export * from './footer/footer.module';
 export * from './header/header.module';
 export * from './page-not-found/page-not-found.module';
 export * from './search/search.module';
+export * from './search-new/search-new.module';

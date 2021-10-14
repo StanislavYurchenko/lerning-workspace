@@ -17,7 +17,7 @@ export class TodosComponent implements OnInit, OnDestroy {
   public selectedTodo: Todo;
   public openAddEditForm = false;
   public editMode = false;
-  public todoAction = '';
+  public searchInit = '';
 
   private subscription = new Subscription();
   private params: Params;
@@ -25,12 +25,13 @@ export class TodosComponent implements OnInit, OnDestroy {
   constructor(
     private readonly apiService: ApiService,
     private readonly activatedRoute: ActivatedRoute,
-    private readonly router: Router,
+    private readonly router: Router
   ) {}
 
   ngOnInit(): void {
     this.paramsSubscription();
     this.getTodosSubscription(this.params);
+    this.getQueryFromParam();
   }
 
   ngOnDestroy(): void {
@@ -106,6 +107,10 @@ export class TodosComponent implements OnInit, OnDestroy {
         search: param,
       },
     });
+  }
+
+  private getQueryFromParam() {
+    this.searchInit = this.params.search;
   }
 
   // TODO: change subscription to rxjs
