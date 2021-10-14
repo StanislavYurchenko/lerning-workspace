@@ -3,6 +3,11 @@
   (search)="searchHandle($event)" 
 ></learning-workspace-search>
 
+<learning-workspace-search-new 
+  [initQuery]='searchInit' 
+  (search)="searchHandle($event)" 
+></learning-workspace-search-new>
+
 <ul *ngIf="todos?.length" class="list-group">  
   <ng-container *ngFor="let todo of todos; trackBy:todoIdentify">
     <learning-workspace-todo-item 
@@ -13,11 +18,6 @@
 </ul>
 
 <button class="btn btn-outline-primary mb-2 mr-2" (click)="addTodo()">Add todo</button>
-
-<learning-workspace-search-new 
-  [initQuery]='searchInit' 
-  (search)="searchHandle($event)" 
-></learning-workspace-search-new>
 
 <ng-container *ngIf="openAddEditForm">
   <learning-workspace-add-edit-todo-form
