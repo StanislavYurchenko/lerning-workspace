@@ -1,17 +1,22 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { fromEvent, Subscription } from 'rxjs';
+import { debounceTime, map } from 'rxjs/operators';
 
 @Component({
   selector: 'learning-workspace-search-new',
   templateUrl: './search-new.component.html',
   styleUrls: ['./search-new.component.scss'],
 })
-export class SearchNewComponent implements OnInit, OnDestroy {
+export class SearchNewComponent implements OnInit, OnDestroy, AfterViewInit {
   public searchForm: FormGroup;
 
   @Output() search: EventEmitter<string> = new EventEmitter();
+
+  @Input() initQuery = '';
+
+  @ViewChild('search', { static: true })
+  searchFormRef: ElementRef<Document>;
 
   private subscription = new Subscription();
   private debounceTime = 500; //ms
@@ -27,26 +32,32 @@ export class SearchNewComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
+  ngAfterViewInit(): void {
+    this.valueChangesSubscriptions();
+  }
+
   emitSearch(query: string): void {
     this.search.emit(query);
   }
 
+  // TODO REFACTOR
   private valueChangesSubscriptions(): void {
     this.subscription.add(
-      this.searchForm.get('search')?.valueChanges
+      fromEvent(this.searchFormRef.nativeElement, 'input')
         .pipe(
           debounceTime(this.debounceTime),
+          map((event) => {
+            const inputRef = event?.target as HTMLInputElement;
+            return inputRef?.value;
+          })
         )
-        .subscribe((query) => {
-          if (!this.searchForm.valid) return;
-          this.emitSearch(query);
-        })
+        .subscribe((value) => this.emitSearch(value))
     );
   }
 
   private createFormControl(): void {
     this.searchForm = this.fb.group({
-      search: ['', [Validators.minLength(3)]],
+      search: [this.initQuery, [Validators.minLength(3)]],
     });
   }
 }

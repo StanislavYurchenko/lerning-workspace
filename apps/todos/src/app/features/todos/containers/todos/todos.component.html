@@ -1,7 +1,6 @@
 <learning-workspace-search 
   [initQuery]='searchInit' 
   (search)="searchHandle($event)" 
-  #search
 ></learning-workspace-search>
 
 <ul *ngIf="todos?.length" class="list-group">  
@@ -14,6 +13,11 @@
 </ul>
 
 <button class="btn btn-outline-primary mb-2 mr-2" (click)="addTodo()">Add todo</button>
+
+<learning-workspace-search-new 
+  [initQuery]='searchInit' 
+  (search)="searchHandle($event)" 
+></learning-workspace-search-new>
 
 <ng-container *ngIf="openAddEditForm">
   <learning-workspace-add-edit-todo-form
