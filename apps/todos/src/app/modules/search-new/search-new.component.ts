@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { fromEvent, Subscription } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
@@ -8,7 +8,7 @@ import { debounceTime, map } from 'rxjs/operators';
   templateUrl: './search-new.component.html',
   styleUrls: ['./search-new.component.scss'],
 })
-export class SearchNewComponent implements OnInit, OnDestroy, AfterViewInit {
+export class SearchNewComponent implements OnInit, OnDestroy {
   public searchForm: FormGroup;
 
   @Output() search: EventEmitter<string> = new EventEmitter();
@@ -32,11 +32,7 @@ export class SearchNewComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscription.unsubscribe();
   }
 
-  ngAfterViewInit(): void {
-    this.valueChangesSubscriptions();
-  }
-
-  emitSearch(query: string): void {
+  private emitSearch(query: string): void {
     this.search.emit(query);
   }
 
