@@ -2,18 +2,20 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { AddEditTodoFormComponent } from './add-edit-todo-form.component';
+import { SearchNewComponent } from './search-new.component';
+
+
 
 @NgModule({
   declarations: [
-    AddEditTodoFormComponent,
+    SearchNewComponent,
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
   ],
   exports: [
-    AddEditTodoFormComponent,
+    SearchNewComponent,
   ]
 })
-export class AddEditTodoFormModule {}
+export class SearchNewModule { }

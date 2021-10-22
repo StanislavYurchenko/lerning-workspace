@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 
 import { AboutRouterModule } from './about-routing.module';
 
-import { AboutComponent } from './containers';
+import { AboutComponent } from './about.component';
 
 @NgModule({
   declarations: [

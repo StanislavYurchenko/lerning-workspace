@@ -1,21 +1,22 @@
 import { Injectable } from '@nestjs/common';
-import { Message } from '@learning-workspace/api-interfaces';
 import Todo = require('../model/schemas/Todo'); 
+
 @Injectable()
 export class AppService {
-  // constructor(private readonly todo: Todo) {} // TODO fix it
+  // constructor(
+  //   private readonly todo: Todo, // TODO fix it ????
+  //   private readonly regexp: ReqExp, // ??????
+  // ) {}
 
-  getData(): Message {
-    return { message: 'Welcome to api!' };
-  }
 
   async getTodos(req) {
     const { search, sortBy, sortByDesc, limit = 10, page = 1 } = req.query;
+    const regexp = new RegExp(search, 'i');
 
     const searchQuery = {
       $or: [
-        { 'title': { '$regex': new RegExp(search) } },
-        { 'description': { '$regex': new RegExp(search) } },
+        { 'title': { '$regex': regexp } },
+        { 'description': { '$regex': regexp } },
       ],
     };
 

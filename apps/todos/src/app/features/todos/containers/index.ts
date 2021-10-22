@@ -1,1 +1,1 @@
-export * from './todos-container';
+export * from './todos';
