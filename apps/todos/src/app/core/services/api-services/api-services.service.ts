@@ -55,33 +55,18 @@ export class ApiService {
   register(body: UserRegisterRequest) {
     return this.http
       .post<UserResponse>('/api/user/register', body)
-      .pipe(
-        map((res) => {
-          console.log('res', res);
-          return res.data;
-        })
-    );
+      .pipe(map((res) => res.data));
   }
 
   login(body: UserLoginRequest) {
     return this.http
       .post<UserResponse>('/api/user/login', body)
-      .pipe(
-        map((res) => {
-          console.log('res', res);
-          return res.data;
-        })
-    );
+      .pipe(map((res) => res.data));
   }
 
   logout(body: UserLogoutRequest) {
     return this.http
       .post<UserLogoutResponse>('/api/user/login', body)
-      .pipe(
-        map((res) => {
-          console.log('res', res);
-          return res.data;
-        })
-    );
+      .pipe(map((res) => res.data));
   }
 }
