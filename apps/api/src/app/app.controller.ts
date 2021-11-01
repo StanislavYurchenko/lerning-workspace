@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 
 import { AppService } from './app.service';
+import { RequestWithUser } from '../interfaces/request-with-user'
 
 @Controller()
 export class AppController {
@@ -18,40 +19,44 @@ export class AppController {
 
   // TODOS
   @Get('todo')
-  async getTodos(@Req() req: Request) {
-    return this.appService.getTodos(req, '617d4d1bc26476138e81766d');
+  async getTodos(@Req() req: RequestWithUser) {
+    return this.appService.getTodos(req, req.user?.id);
   }
 
   @Get('todo/:id')
-  async getTodoById(@Param('id') id: string, @Req() req: Request) {
+  async getTodoById(@Param('id') id: string, @Req() req: RequestWithUser) {
     if (!id) {
       throw new NotFoundException();
     }
 
-    return this.appService.getTodoById(id, '617d4d1bc26476138e81766d');
+    return this.appService.getTodoById(id, req.user?.id);
   }
 
   @Post('todo')
-  async addTodo(@Body() data, @Req() req: Request) {
-    return this.appService.addTodo(data, '617d4d1bc26476138e81766d');
+  async addTodo(@Body() data, @Req() req: RequestWithUser) {
+    return this.appService.addTodo(data, req.user?.id);
   }
 
   @Put('todo/:id')
-  async updateTodoById(@Param('id') id: string, @Body() data, @Req() req: Request) {
+  async updateTodoById(
+    @Param('id') id: string,
+    @Body() data,
+    @Req() req: RequestWithUser,
+  ) {
     if (!id) {
       throw new NotFoundException();
     }
 
-    return this.appService.updateTodoById(id, data, '617d4d1bc26476138e81766d');
+    return this.appService.updateTodoById(id, data, req.user?.id);
   }
 
   @Delete('todo/:id')
-  async removeTodoById(@Param('id') id: string, @Req() req: Request) {
+  async removeTodoById(@Param('id') id: string, @Req() req: RequestWithUser) {
     if (!id) {
       throw new NotFoundException();
     }
 
-    return this.appService.removeTodoById(id, '617d4d1bc26476138e81766d');
+    return this.appService.removeTodoById(id, req.user?.id);
   }
 
   // USERS
@@ -66,7 +71,7 @@ export class AppController {
   }
 
   @Post('user/logout')
-  async logout(@Body() id) {
+  async logout(@Body() id: string) {
     return this.appService.logout(id);
   }
 

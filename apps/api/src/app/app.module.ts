@@ -15,6 +15,6 @@ export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(AuthorizationMiddleware)
-      .forRoutes('todo', 'user');
+      .forRoutes('todo');
   }
 }

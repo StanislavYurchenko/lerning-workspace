@@ -28,21 +28,21 @@ export class AuthorizationMiddleware implements NestMiddleware {
     passport.use(
       new Strategy(params, async (payload, done) => {
         try {
-          const id = payload._id;
-          const { data } = await this.appService.findUserById(id);
+          const userId = payload._id;
+          const { data: user } = await this.appService.findUserById(userId);
 
-          if (!data) {
+          if (!user) {
             const error = new Error();
             error.message = 'User not found';
             // error.code = HTTP_CODE.NOT_FOUND;
             throw error;
           }
 
-          if (!data.token) {
+          if (!user.token) {
             return done(null, false);
           }
 
-          return done(null, data);
+          return done(null, user);
         } catch (error) {
           done(error, false);
         }
@@ -51,7 +51,6 @@ export class AuthorizationMiddleware implements NestMiddleware {
 
     passport.authenticate('jwt', { session: false }, (err, user) => {
       const token = req.get('Authorization')?.split(' ')[1];
-
       if (!user || err || token !== user.token) {
         return res.status(HTTP_CODE.FORBIDDEN).json({
           status: 'error',
@@ -60,7 +59,9 @@ export class AuthorizationMiddleware implements NestMiddleware {
           message: 'Access is denied',
         });
       }
-      req.user = user;
+
+      const { _id: id, ...rest } = user;
+      req.user = { id, ...rest };
       return next();
     })(req, res, next);
   }
