@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate-v2');
-const { Schema } = mongoose;
+const { Schema, SchemaTypes } = mongoose;
 
 
 const todoSchema = new Schema({
@@ -9,7 +9,11 @@ const todoSchema = new Schema({
     required: [true, 'Title is require'],
   },
   description: String,
-  ready: Boolean
+  ready: Boolean,
+  owner: {
+    type: SchemaTypes.ObjectId,
+    ref: 'user',
+  }
 }, { versionKey: false, timestamps: true });
 
 todoSchema.plugin(mongoosePaginate);

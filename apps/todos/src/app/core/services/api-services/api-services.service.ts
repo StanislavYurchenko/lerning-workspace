@@ -5,6 +5,11 @@ import {
   Todo,
   TodosResponse,
   TodoResponse,
+  UserResponse,
+  UserLoginRequest,
+  UserRegisterRequest,
+  UserLogoutRequest,
+  UserLogoutResponse,
 } from '@learning-workspace/api-interfaces';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -15,9 +20,10 @@ import { map } from 'rxjs/operators';
 export class ApiService {
   constructor(private readonly http: HttpClient) {}
 
+  // TODOS
   getTodos(params: Params): Observable<Todo[]> {
     return this.http
-      .get<TodosResponse>('/api/todos', { params })
+      .get<TodosResponse>('/api/todo', { params })
       .pipe(map((res) => res.data.todos));
   }
 
@@ -43,5 +49,39 @@ export class ApiService {
     return this.http
       .delete<TodoResponse>(`/api/todo/${id}`)
       .pipe(map((res) => res.data));
+  }
+
+  // USERS
+  register(body: UserRegisterRequest) {
+    return this.http
+      .post<UserResponse>('/api/user/register', body)
+      .pipe(
+        map((res) => {
+          console.log('res', res);
+          return res.data;
+        })
+    );
+  }
+
+  login(body: UserLoginRequest) {
+    return this.http
+      .post<UserResponse>('/api/user/login', body)
+      .pipe(
+        map((res) => {
+          console.log('res', res);
+          return res.data;
+        })
+    );
+  }
+
+  logout(body: UserLogoutRequest) {
+    return this.http
+      .post<UserLogoutResponse>('/api/user/login', body)
+      .pipe(
+        map((res) => {
+          console.log('res', res);
+          return res.data;
+        })
+    );
   }
 }
