@@ -1,0 +1,37 @@
+<ng-template #login>
+  <div class="modal-header">
+    <h4 class="modal-title">Login</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeAuthForm()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <form [formGroup]="authForm" (ngSubmit)="submitAuthForm()" class="modal-body">
+    <div>
+      <label for="email">Email: </label>
+      <input
+        id="email" 
+        type="email"
+        formControlName="email"
+        placeholder="name@mail.com"
+      >
+    </div>
+
+    <div>
+      <label for="password">Password: </label>
+      <input
+        id="password"
+        type="password"
+        formControlName="password"
+        placeholder="password"
+      >
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="closeAuthForm()">Close</button>
+      <button type="confirm" [disabled]="authForm.invalid" class="btn btn-primary">
+        Login
+      </button>
+    </div>
+  </form>
+</ng-template>

@@ -5,25 +5,23 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
+
+import { LocalStorageService } from './core/services';
 import { AppRoutingModule } from './app-routing.module';
 import { HeaderModule, FooterModule } from './modules';
 
-
-
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
-    FooterModule,
-    HeaderModule,
+    AppRoutingModule,
     ReactiveFormsModule,
     BrowserModule,
     HttpClientModule,
-    AppRoutingModule,
     NgbModule,
+    HeaderModule,
+    FooterModule,
   ],
-  providers: [],
+  providers: [LocalStorageService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

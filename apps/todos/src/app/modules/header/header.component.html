@@ -1,9 +1,10 @@
-<nav>
-  <ul *ngIf="links.length" class="nav">
+<nav class="d-flex align-items-center p-2">
+  <ul *ngIf="links.length" class="nav mr-auto">
     <li *ngFor="let link of links" class="nav-item">
-      <a [routerLink]="link.route" class="nav-link">Go to {{link.description}} page</a>
+      <a [routerLink]="[link.route]" class="nav-link">Go to {{link.description}} page</a>
     </li>
   </ul>
+  <learning-workspace-auth></learning-workspace-auth>
 </nav>
 
 

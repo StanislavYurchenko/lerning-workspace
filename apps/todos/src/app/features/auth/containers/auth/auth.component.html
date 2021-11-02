@@ -1,0 +1,10 @@
+<div class="d-flex align-items-center ">
+  <p class="m-0 mr-2">Hello {{ user?.name}}</p>
+  <button (click)="openAuthForm()">{{isLoggedIn ? "Logout": "Login"}}</button>
+</div>
+
+<ng-container *ngIf="isOpenAuthForm">
+  <learning-workspace-auth-form
+    (addEditFormEvent)="afterCloseAuthForm($event)"
+  ></learning-workspace-auth-form>
+</ng-container>
