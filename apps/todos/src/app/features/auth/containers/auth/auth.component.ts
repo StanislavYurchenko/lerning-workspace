@@ -26,7 +26,7 @@ export class AuthComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('test');
+    console.log('AuthComponent');
   }
 
   public openAuthForm(): void {
