@@ -17,8 +17,7 @@ export class LocalStorageService implements Storage {
   }
 
   public getItem(key: string): string | null {
-    const data = this.storage.getItem(key);
-    return data ? JSON.parse(data) : null;
+    return this.storage.getItem(key);
   }
 
   public key(index: number): string | null {
@@ -31,5 +30,10 @@ export class LocalStorageService implements Storage {
 
   public setItem(key: string, value: unknown): void {
     this.storage.setItem(key, JSON.stringify(value));
+  }
+
+  public getItemParsed(key: string): any | null {
+    const data = this.getItem(key);
+    return data ? JSON.parse(data) : null;
   }
 }

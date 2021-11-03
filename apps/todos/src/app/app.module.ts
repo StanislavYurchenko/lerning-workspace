@@ -2,13 +2,15 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+
+import { HeaderModule, FooterModule } from './modules';
+import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 
-import { LocalStorageService } from './core/services';
-import { AppRoutingModule } from './app-routing.module';
-import { HeaderModule, FooterModule } from './modules';
+import { LocalStorageService, AuthService } from './core/services';
+import { AuthInterceptor } from './core/http-interceptors'
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,7 +23,11 @@ import { HeaderModule, FooterModule } from './modules';
     HeaderModule,
     FooterModule,
   ],
-  providers: [LocalStorageService],
+  providers: [
+    LocalStorageService,
+    AuthService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

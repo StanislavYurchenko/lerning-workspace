@@ -164,7 +164,7 @@ export class AppService {
 
       const { data: userData } = await this.updateToken(data._id, token);
 
-      const user = userData ? this.userResponse(userData) : null;
+      const user = userData ? this.userResponse(data, token) : null;
 
       return { data: { ...user } };
     } catch (error) {
@@ -259,7 +259,7 @@ export class AppService {
     };
   }
 
-  private userResponse(user) {
+  private userResponse(user, newToken?) {
     const {
       _id,
       token,
@@ -273,7 +273,7 @@ export class AppService {
     } = user;
     return {
       id: _id,
-      token,
+      token: newToken || token,
       verify,
       email,
       password,

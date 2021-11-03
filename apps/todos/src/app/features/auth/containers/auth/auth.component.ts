@@ -5,7 +5,7 @@ import {
   UserLoginRequest,
   UserLogoutRequest,
 } from '@learning-workspace/api-interfaces';
-import { ApiService, LocalStorageService } from '../../../../core/services';
+import { ApiService, AuthService } from '../../../../core/services';
 import { User } from '@learning-workspace/api-interfaces';
 
 @Component({
@@ -22,7 +22,7 @@ export class AuthComponent implements OnInit {
 
   constructor(
     private readonly apiService: ApiService,
-    private readonly localStorageService: LocalStorageService,
+    private readonly authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -69,7 +69,7 @@ export class AuthComponent implements OnInit {
           name: user.name,
           token: user.token,
         };
-        this.localStorageService.setItem('user', data);
+        this.authService.saveUser(data);
       })
     );
   }
@@ -80,6 +80,7 @@ export class AuthComponent implements OnInit {
       this.apiService.logout({ id: this.user?.id }).subscribe((user) => {
         this.user = null;
         this.isLoggedIn = false;
+        this.authService.removeUser();
       })
     );
   }
