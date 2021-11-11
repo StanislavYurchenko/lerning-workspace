@@ -176,7 +176,7 @@ export class AppService {
     try {
       const { data, error } = await this.findUserById(id);
       await this.updateToken(id, null);
-      return { data: data && { message: 'Logout success' } };
+      return { data: data && { data: { message: 'Logout success' } } };
     } catch (error) {
       return { error };
     }

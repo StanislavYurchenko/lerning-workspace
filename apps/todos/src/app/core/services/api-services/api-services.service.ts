@@ -10,6 +10,8 @@ import {
   UserRegisterRequest,
   UserLogoutRequest,
   UserLogoutResponse,
+  UserLogoutMessage,
+  User,
 } from '@learning-workspace/api-interfaces';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -52,19 +54,19 @@ export class ApiService {
   }
 
   // USERS
-  register(body: UserRegisterRequest) {
+  register(body: UserRegisterRequest): Observable<User | undefined> {
     return this.http
       .post<UserResponse>('/api/user/register', body)
       .pipe(map((res) => res.data));
   }
 
-  login(body: UserLoginRequest) {
+  login(body: UserLoginRequest): Observable<User | undefined> {
     return this.http
       .post<UserResponse>('/api/user/login', body)
       .pipe(map((res) => res.data));
   }
 
-  logout(body: UserLogoutRequest) {
+  logout(body: UserLogoutRequest): Observable<UserLogoutMessage | undefined> {
     return this.http
       .post<UserLogoutResponse>('/api/user/login', body)
       .pipe(map((res) => res.data));

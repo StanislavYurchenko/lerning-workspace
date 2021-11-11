@@ -10,7 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { LocalStorageService, AuthService } from './core/services';
-import { AuthInterceptor } from './core/http-interceptors'
+import { AuthInterceptor } from './core/interceptors'
 
 @NgModule({
   declarations: [AppComponent],
