@@ -30,7 +30,7 @@ export class TodosComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.paramsSubscription();
-    this.getTodosSubscription(this.params);
+    // this.getTodosSubscription(this.params);
     this.getQueryFromParam();
   }
 

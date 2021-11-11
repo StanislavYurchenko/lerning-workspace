@@ -7,6 +7,7 @@ import {
 } from '@learning-workspace/api-interfaces';
 import { ApiService, AuthService } from '../../../../core/services';
 import { User } from '@learning-workspace/api-interfaces';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'learning-workspace-auth',
@@ -14,19 +15,22 @@ import { User } from '@learning-workspace/api-interfaces';
   styleUrls: ['./auth.component.scss'],
 })
 export class AuthComponent implements OnInit {
-  public user: User | null | undefined;
   public isOpenAuthForm = false;
   public isLoggedIn = false;
+  public userName = 'guest';
+  public userId = '';
 
+  private user: User | null | undefined;
   private subscription = new Subscription();
 
   constructor(
     private readonly apiService: ApiService,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly router: Router,
   ) {}
 
   ngOnInit(): void {
-    console.log('AuthComponent');
+    this.initAuth();
   }
 
   public openAuthForm(): void {
@@ -41,6 +45,13 @@ export class AuthComponent implements OnInit {
   public afterCloseAuthForm(user: UserLoginRequest): void {
     this.isOpenAuthForm = false;
     this.userLoginSubscription(user);
+  }
+
+  private initAuth() {
+    if (!this.authService.isAuthenticated()) return;
+    this.isLoggedIn = true;
+    this.userName = this.authService.getUserName();
+    this.userId = this.authService.getUserId();
   }
 
   private userRegisterSubscription(): void {
@@ -68,6 +79,7 @@ export class AuthComponent implements OnInit {
         const data = {
           name: user.name,
           token: user.token,
+          id: user.id,
         };
         this.authService.saveUser(data);
       })
@@ -75,12 +87,14 @@ export class AuthComponent implements OnInit {
   }
 
   private userLogoutSubscription(): void {
-    if (!this.user) return;
+    if (!this.isLoggedIn) return;
     this.subscription.add(
-      this.apiService.logout({ id: this.user?.id }).subscribe((user) => {
+      this.apiService.logout({ id: this.userId }).subscribe(() => {
         this.user = null;
         this.isLoggedIn = false;
+        this.userName = 'guest';
         this.authService.removeUser();
+        this.router.navigate(['/']);
       })
     );
   }

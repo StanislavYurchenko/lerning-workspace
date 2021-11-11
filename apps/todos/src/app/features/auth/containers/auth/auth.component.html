@@ -1,5 +1,5 @@
 <div class="d-flex align-items-center ">
-  <p class="m-0 mr-2">Hello {{ user?.name}}</p>
+  <p class="m-0 mr-2">Hello {{ userName | titlecase }}</p>
   <button (click)="openAuthForm()">{{isLoggedIn ? "Logout": "Login"}}</button>
 </div>
 
