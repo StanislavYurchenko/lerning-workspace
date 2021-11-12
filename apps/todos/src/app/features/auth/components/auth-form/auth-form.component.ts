@@ -12,9 +12,11 @@ import { UserLoginRequest } from '@learning-workspace/api-interfaces';
 export class AuthFormComponent implements OnInit, AfterViewInit {
   @Output() addEditFormEvent = new EventEmitter<UserLoginRequest>();
 
-  public authForm: FormGroup;
-
   @ViewChild('login') loginContent: TemplateRef<unknown>;
+
+  public authForm: FormGroup;
+  public formLabel = 'Login';
+  public isLogin = true;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -32,7 +34,9 @@ export class AuthFormComponent implements OnInit, AfterViewInit {
   private authFormBuild(): FormGroup {
     return this.fb.group({
       email: ['', [Validators.required, Validators.email]],
+      name: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
+      passwordRepeat: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
 
@@ -55,5 +59,10 @@ export class AuthFormComponent implements OnInit, AfterViewInit {
   public submitAuthForm(): void {
     this.addEditFormEvent.emit(this.authForm.value);
     this.closeAuthForm();
+  }
+
+  public switchForm(): void {
+    this.formLabel = this.isLogin ? 'Registration' : 'Login';
+    this.isLogin = !this.isLogin;
   }
 }

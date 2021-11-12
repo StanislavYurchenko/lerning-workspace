@@ -1,6 +1,6 @@
 <ng-template #login>
   <div class="modal-header">
-    <h4 class="modal-title">Login</h4>
+    <h4 class="modal-title" [textContent]='formLabel'></h4>
     <button type="button" class="close" aria-label="Close" (click)="closeAuthForm()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -17,6 +17,16 @@
       >
     </div>
 
+    <div *ngIf='!isLogin'>
+      <label for="name">Name: </label>
+      <input
+        id="name" 
+        type="text"
+        formControlName="name"
+        placeholder="Name"
+      >
+    </div>
+
     <div>
       <label for="password">Password: </label>
       <input
@@ -27,11 +37,25 @@
       >
     </div>
 
+    <div *ngIf='!isLogin'>
+      <label for="password-repeat">Password: </label>
+      <input
+        id="password-repeat"
+        type="password"
+        formControlName="password-repeat"
+        placeholder="repeat password"
+      >
+    </div>
+
     <div class="modal-footer">
+      <button type="button" class="btn btn-light mr-auto" (click)="switchForm()">Switch login/registration</button>
       <button type="button" class="btn btn-light" (click)="closeAuthForm()">Close</button>
-      <button type="confirm" [disabled]="authForm.invalid" class="btn btn-primary">
-        Login
-      </button>
+      <button 
+        type="confirm"
+        [disabled]="authForm.invalid"
+        class="btn btn-primary"
+        [textContent]='formLabel'
+      ></button>
     </div>
   </form>
 </ng-template>

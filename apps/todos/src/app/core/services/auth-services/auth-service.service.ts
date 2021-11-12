@@ -8,55 +8,31 @@ export class AuthService {
   constructor(private localStorageService: LocalStorageService) {}
 
   public getAuthorizationToken(): string {
-    return this.getAuthorizationTokenFromLocalStore();
-  }
-
-  public getUserName(): string {
-    return this.getUserNameFromLocalStore();
-  }
-
-  public getUserId(): string {
-    return this.getUserIdFromLocalStore();
-  }
-
-  public saveUser(user: Partial<User>): boolean {
-    this.saveUserFromLocalStore(user);
-    return true;
-  }
-
-  public removeUser(): boolean {
-    this.removeUserFromLocalStore();
-    return true;
-  }
-
-  public isAuthenticated(): boolean {
-    return this.isAuthenticatedFromLocalStore();
-  }
-
-  private getAuthorizationTokenFromLocalStore(): string {
     const data = this.localStorageService.getItemParsed('user');
     return data?.token ? data.token : '';
   }
 
-  private getUserNameFromLocalStore(): string {
+  public getUserName(): string {
     const data = this.localStorageService.getItemParsed('user');
     return data?.name ? data.name : '';
   }
 
-  private getUserIdFromLocalStore(): string {
+  public getUserId(): string {
     const data = this.localStorageService.getItemParsed('id');
     return data?.id ? data.id : '';
   }
 
-  private saveUserFromLocalStore(user: Partial<User>): void {
+  public saveUser(user: Partial<User>): boolean {
     this.localStorageService.setItem('user', user);
+    return true;
   }
 
-  private removeUserFromLocalStore(): void {
+  public removeUser(): boolean {
     this.localStorageService.removeItem('user');
+    return true;
   }
 
-  private isAuthenticatedFromLocalStore(): boolean {
+  public isAuthenticated(): boolean {
     const data = this.localStorageService.getItemParsed('user');
     return Boolean(data?.token);
   }
