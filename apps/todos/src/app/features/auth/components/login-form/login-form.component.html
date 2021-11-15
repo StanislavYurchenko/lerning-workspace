@@ -1,0 +1,33 @@
+<ng-template #form>
+  <form [formGroup]="loginForm" (ngSubmit)="submitLoginForm()" class="modal-body">
+    <div>
+      <label for="email">Email: </label>
+      <input
+        id="email" 
+        type="email"
+        formControlName="email"
+        placeholder="name@mail.com"
+      >
+    </div>
+
+    <div>
+      <label for="password">Password: </label>
+      <input
+        id="password"
+        type="password"
+        formControlName="password"
+        placeholder="password"
+      >
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="closeForm()">Close</button>
+      <button 
+        type="confirm"
+        [disabled]="loginForm.invalid && loginForm.untouched"
+        class="btn btn-primary"
+        [textContent]='formLabel'
+      ></button>
+    </div>
+  </form>
+</ng-template>

@@ -1,0 +1,53 @@
+<ng-template #form>
+  <form [formGroup]="registerForm" (ngSubmit)="submitRegisterForm()" class="modal-body">
+    <div>
+      <label for="name">Name: </label>
+      <input
+        id="name" 
+        type="text"
+        formControlName="name"
+        placeholder="Name"
+      >
+    </div>
+
+    <div>
+      <label for="email">Email: </label>
+      <input
+        id="email" 
+        type="email"
+        formControlName="email"
+        placeholder="name@mail.com"
+      >
+    </div>
+
+    <div>
+      <label for="password">Password: </label>
+      <input
+        id="password"
+        type="password"
+        formControlName="password"
+        placeholder="password"
+      >
+    </div>
+
+    <div>
+      <label for="confirm-password">Confirm password: </label>
+      <input
+        id="confirm-password"
+        type="password"
+        formControlName="confirmPassword"
+        placeholder="confirm password"
+      >
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="closeForm()">Close</button>
+      <button 
+        type="confirm"
+        [disabled]="registerForm.invalid"
+        class="btn btn-primary"
+        [textContent]='formLabel'
+      ></button>
+    </div>
+  </form>
+</ng-template>

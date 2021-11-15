@@ -3,8 +3,37 @@
   <button (click)="openAuthForm()">{{isLoggedIn ? "Logout": "Login"}}</button>
 </div>
 
+<!-- <ng-template #auth>
+  <div class="modal-header grid">
+    <div class="g-col-6">
+      <button
+        type="button"
+        class="btn"
+        [ngClass]="{'btn-primary': isLogin}"
+        (click)="setLogin()"
+      >Login</button>
+    </div>
+
+    <div class="g-col-6">
+      <button
+        type="button"
+        class="btn"
+        [ngClass]="{'btn-primary': !isLogin}"
+        (click)="setRegistration()"
+      >Registration</button>
+    </div>
+  </div>
+
+  <div *ngIf="isLogin; then login else registration"></div>
+
+</ng-template> -->
+
 <ng-container *ngIf="isOpenAuthForm">
-  <learning-workspace-auth-form
-    (addEditFormEvent)="afterCloseAuthForm($event)"
-  ></learning-workspace-auth-form>
+  <learning-workspace-registration-form
+    (registerFormEvent)="afterCloseAuthForm($event)"
+  ></learning-workspace-registration-form>
+
+  <!-- <learning-workspace-login-form
+    (loginFormEvent)="afterCloseAuthForm($event)"
+  ></learning-workspace-login-form> -->
 </ng-container>
