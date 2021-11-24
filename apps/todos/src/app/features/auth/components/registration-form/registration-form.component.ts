@@ -2,7 +2,7 @@ import { AfterViewInit, Component, EventEmitter, OnInit, Output, TemplateRef, Vi
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { UserLoginRequest } from '@learning-workspace/api-interfaces';
+import { UserRegisterRequest } from '@learning-workspace/api-interfaces';
 import { ValidationService } from '../../../../core/services';
 
 @Component({
@@ -11,11 +11,10 @@ import { ValidationService } from '../../../../core/services';
   styleUrls: ['./registration-form.component.scss'],
 })
 export class RegistrationFormComponent implements OnInit, AfterViewInit {
-  @Output() registerFormEvent = new EventEmitter<UserLoginRequest>();
+  @Output() registerFormEvent = new EventEmitter<UserRegisterRequest>();
 
   @ViewChild('form') formRef: TemplateRef<unknown>;
 
-  public loginForm: FormGroup;
   public registerForm: FormGroup;
   public formLabel = 'Registration';
 
@@ -34,14 +33,12 @@ export class RegistrationFormComponent implements OnInit, AfterViewInit {
   }
 
   private registerFormBuild(): FormGroup {
-    const form = this.fb.group(
-      {
-        name: ['', [Validators.required]],
-        email: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required, Validators.minLength(6)]],
-        confirmPassword: [''],
-      }
-    );
+    const form = this.fb.group({
+      name: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: [''],
+    });
 
     form
       .get('confirmPassword')
@@ -59,7 +56,6 @@ export class RegistrationFormComponent implements OnInit, AfterViewInit {
       // eslint-disable-next-line @typescript-eslint/no-empty-function
       () => {},
       () => {
-        this.registerFormEvent.emit();
         this.closeForm();
       }
     );

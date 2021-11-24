@@ -16,7 +16,6 @@ export class LoginFormComponent implements OnInit, AfterViewInit {
   @ViewChild('form') formRef: TemplateRef<unknown>;
 
   public loginForm: FormGroup;
-  public registerForm: FormGroup;
   public formLabel = 'Login';
 
   constructor(
@@ -45,7 +44,6 @@ export class LoginFormComponent implements OnInit, AfterViewInit {
       // eslint-disable-next-line @typescript-eslint/no-empty-function
       () => {},
       () => {
-        this.loginFormEvent.emit();
         this.closeForm();
       }
     );

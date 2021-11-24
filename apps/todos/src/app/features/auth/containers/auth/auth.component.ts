@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import {
   UserLoginRequest,
   UserLogoutRequest,
+  UserRegisterRequest,
 } from '@learning-workspace/api-interfaces';
 import { ApiService, AuthService } from '../../../../core/services';
 import { User } from '@learning-workspace/api-interfaces';
@@ -19,6 +20,7 @@ export class AuthComponent implements OnInit {
   public isLoggedIn = false;
   public userName = 'guest';
   public userId = '';
+  public isLogin = true;
 
   private user: User | null | undefined;
   private subscription = new Subscription();
@@ -42,9 +44,18 @@ export class AuthComponent implements OnInit {
     this.isOpenAuthForm = !this.isOpenAuthForm;
   }
 
-  public afterCloseAuthForm(user: UserLoginRequest): void {
-    this.isOpenAuthForm = false;
+  public userRegister(user: UserRegisterRequest): void {
+    this.afterCloseAuthForm();
+    this.userRegisterSubscription(user);
+  }
+
+  public userLogin(user: UserLoginRequest): void {
+    this.afterCloseAuthForm();
     this.userLoginSubscription(user);
+  }
+
+  private afterCloseAuthForm(): void {
+    this.isOpenAuthForm = false;
   }
 
   private initAuth() {
@@ -54,18 +65,15 @@ export class AuthComponent implements OnInit {
     this.userId = this.authService.getUserId();
   }
 
-  private userRegisterSubscription(): void {
+  private userRegisterSubscription(user: UserRegisterRequest): void {
     this.subscription.add(
       this.apiService
         .register({
-          email: 'yurchenko.stanislav@ukr.net',
-          password: '284767Abc',
-          name: 'stas',
+          email: user.email,
+          password: user.password,
+          name: user.name,
         })
-        .subscribe((user) => {
-          console.log('user', user);
-          this.user = user;
-        })
+        .subscribe()
     );
   }
 
