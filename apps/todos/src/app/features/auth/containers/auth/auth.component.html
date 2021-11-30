@@ -1,21 +1,40 @@
 <div class="d-flex align-items-center ">
   <p class="m-0 mr-2">Hello {{ userName | titlecase }}</p>
-  <button (click)="openAuthForm()">{{isLoggedIn ? "Logout": "Login"}}</button>
+  <button (click)="auth()">{{isLoggedIn ? "Logout": "Login"}}</button>
 </div>
 
+<ng-template #modal>
+  <div class="modal-body">
+    <nav ngbNav #nav="ngbNav" class="nav-tabs">
+      
+      <ng-container ngbNavItem>
+        <a ngbNavLink>Login</a>
+        <ng-template ngbNavContent>
+          <learning-workspace-login-form
+            (formEvent)="userLogin($event)"
+          ></learning-workspace-login-form>
+        </ng-template>
+      </ng-container>
 
-<ng-container *ngIf="isOpenAuthForm">
-  <ng-template *ngIf="isLogin; then loginBlock else registerBlock"></ng-template>
+      <ng-container ngbNavItem>
+        <a ngbNavLink>Registration</a>
+        <ng-template ngbNavContent>
+          <learning-workspace-registration-form
+            (formEvent)="userRegister($event)"
+          ></learning-workspace-registration-form>
+        </ng-template>
+      </ng-container>
 
-  <ng-template #loginBlock>
-    <learning-workspace-login-form
-      (loginFormEvent)="userLogin($event)"
-    ></learning-workspace-login-form>
-  </ng-template>
+      <button
+        type="button"
+        class="close ml-auto"
+        aria-label="Close"
+        (click)="closeModal()"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </nav>
 
-  <ng-template #registerBlock>
-    <learning-workspace-registration-form
-      (registerFormEvent)="userRegister($event)"
-    ></learning-workspace-registration-form>
-  </ng-template>
-</ng-container>
+    <div [ngbNavOutlet]="nav" class="mt-2"></div>
+  </div>
+</ng-template>

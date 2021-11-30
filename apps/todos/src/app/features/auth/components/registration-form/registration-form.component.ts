@@ -1,6 +1,5 @@
-import { AfterViewInit, Component, EventEmitter, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { UserRegisterRequest } from '@learning-workspace/api-interfaces';
 import { ValidationService } from '../../../../core/services';
@@ -10,29 +9,34 @@ import { ValidationService } from '../../../../core/services';
   templateUrl: './registration-form.component.html',
   styleUrls: ['./registration-form.component.scss'],
 })
-export class RegistrationFormComponent implements OnInit, AfterViewInit {
-  @Output() registerFormEvent = new EventEmitter<UserRegisterRequest>();
+export class RegistrationFormComponent implements OnInit, OnDestroy {
+  @Output() formEvent = new EventEmitter<UserRegisterRequest>();
 
-  @ViewChild('form') formRef: TemplateRef<unknown>;
-
-  public registerForm: FormGroup;
+  public form: FormGroup;
   public formLabel = 'Registration';
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly modalService: NgbModal,
     private readonly validationService: ValidationService,
   ) {}
 
   ngOnInit(): void {
-    this.registerForm = this.registerFormBuild();
+    this.form = this.formBuild();
   }
 
-  ngAfterViewInit(): void {
-    this.openForm(this.formRef);
+  ngOnDestroy(): void {
+    this.resetForm();
   }
 
-  private registerFormBuild(): FormGroup {
+  public resetForm(): void {
+    this.form.reset();
+  }
+
+  public submitForm(): void {
+    this.formEvent.emit(this.form.value);
+  }
+
+  private formBuild(): FormGroup {
     const form = this.fb.group({
       name: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
@@ -49,25 +53,5 @@ export class RegistrationFormComponent implements OnInit, AfterViewInit {
       ]);
 
     return form;
-  }
-
-  public openForm(content: TemplateRef<unknown>): void {
-    this.modalService.open(content, { centered: true }).result.then(
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      () => {},
-      () => {
-        this.closeForm();
-      }
-    );
-  }
-
-  public closeForm(): void {
-    this.registerForm.reset();
-    this.modalService.dismissAll();
-  }
-
-  public submitRegisterForm(): void {
-    this.registerFormEvent.emit(this.registerForm.value);
-    this.closeForm();
   }
 }

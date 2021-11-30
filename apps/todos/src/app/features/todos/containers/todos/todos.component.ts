@@ -25,7 +25,7 @@ export class TodosComponent implements OnInit, OnDestroy {
   constructor(
     private readonly apiService: ApiService,
     private readonly activatedRoute: ActivatedRoute,
-    private readonly router: Router
+    private readonly router: Router,
   ) {}
 
   ngOnInit(): void {

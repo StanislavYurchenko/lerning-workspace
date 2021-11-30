@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, TemplateRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   UserLoginRequest,
   UserLogoutRequest,
@@ -16,17 +17,19 @@ import { Router } from '@angular/router';
   styleUrls: ['./auth.component.scss'],
 })
 export class AuthComponent implements OnInit {
-  public isOpenAuthForm = false;
+  @ViewChild('modal') modalRef: TemplateRef<unknown>;
+
   public isLoggedIn = false;
   public userName = 'guest';
   public userId = '';
-  public isLogin = true;
+  public isLogin = false;
 
   private user: User | null | undefined;
   private subscription = new Subscription();
 
   constructor(
     private readonly apiService: ApiService,
+    private readonly modalService: NgbModal,
     private readonly authService: AuthService,
     private readonly router: Router,
   ) {}
@@ -35,27 +38,34 @@ export class AuthComponent implements OnInit {
     this.initAuth();
   }
 
-  public openAuthForm(): void {
+  public closeModal(): void {
+    this.modalService.dismissAll();
+  }
+
+  public auth(): void {
     if (this.isLoggedIn) {
       this.userLogoutSubscription();
       return;
     }
-
-    this.isOpenAuthForm = !this.isOpenAuthForm;
+    this.openModal();
   }
 
   public userRegister(user: UserRegisterRequest): void {
-    this.afterCloseAuthForm();
     this.userRegisterSubscription(user);
   }
 
   public userLogin(user: UserLoginRequest): void {
-    this.afterCloseAuthForm();
     this.userLoginSubscription(user);
   }
 
-  private afterCloseAuthForm(): void {
-    this.isOpenAuthForm = false;
+  private openModal(): void {
+    this.modalService.open(this.modalRef, { centered: true }).result.then(
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      () => {},
+      () => {
+        this.closeModal();
+      }
+    );
   }
 
   private initAuth() {
@@ -79,18 +89,9 @@ export class AuthComponent implements OnInit {
 
   private userLoginSubscription(user: UserLoginRequest): void {
     this.subscription.add(
-      this.apiService.login({ ...user }).subscribe((user) => {
-        if (!user) return;
-
-        this.user = user;
-        this.isLoggedIn = true;
-        const data = {
-          name: user.name,
-          token: user.token,
-          id: user.id,
-        };
-        this.authService.saveUser(data);
-      })
+      this.apiService
+        .login({ ...user })
+        .subscribe((user) => this.loginAndAuthActions(user))
     );
   }
 
@@ -105,5 +106,21 @@ export class AuthComponent implements OnInit {
         this.router.navigate(['/']);
       })
     );
+  }
+
+  private loginAndAuthActions(user: User | undefined): void {
+    if (!user) return;
+
+    this.user = user;
+    this.isLoggedIn = true;
+    this.userName = user.name;
+    this.userId = user.id
+    const data = {
+      name: user.name,
+      token: user.token,
+      id: user.id,
+    };
+    this.authService.saveUser(data);
+    this.closeModal();
   }
 }

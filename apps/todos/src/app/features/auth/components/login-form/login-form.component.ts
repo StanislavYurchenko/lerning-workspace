@@ -1,6 +1,5 @@
-import { AfterViewInit, Component, EventEmitter, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { UserLoginRequest } from '@learning-workspace/api-interfaces';
 import { ValidationService } from '../../../../core/services';
@@ -10,52 +9,38 @@ import { ValidationService } from '../../../../core/services';
   templateUrl: './login-form.component.html',
   styleUrls: ['./login-form.component.scss'],
 })
-export class LoginFormComponent implements OnInit, AfterViewInit {
-  @Output() loginFormEvent = new EventEmitter<UserLoginRequest>();
+export class LoginFormComponent implements OnInit, OnDestroy {
+  @Output() formEvent = new EventEmitter<UserLoginRequest>();
 
-  @ViewChild('form') formRef: TemplateRef<unknown>;
-
-  public loginForm: FormGroup;
+  public form: FormGroup;
   public formLabel = 'Login';
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly modalService: NgbModal,
-    private readonly validationService: ValidationService,
+    private readonly validationService: ValidationService
   ) {}
 
   ngOnInit(): void {
-    this.loginForm = this.loginFormBuild();
+    this.form = this.formBuild();
   }
 
-  ngAfterViewInit(): void {
-    this.openForm(this.formRef);
+  ngOnDestroy(): void {
+    this.resetForm();
   }
 
-  private loginFormBuild(): FormGroup {
+  public resetForm(): void {
+    this.form.reset();
+  }
+
+  public submitForm(): void {
+    console.log(this.form);
+    this.formEvent.emit(this.form.value);
+  }
+
+  private formBuild(): FormGroup {
     return this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
-  }
-
-  public openForm(content: TemplateRef<unknown>): void {
-    this.modalService.open(content, { centered: true }).result.then(
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      () => {},
-      () => {
-        this.closeForm();
-      }
-    );
-  }
-
-  public closeForm(): void {
-    this.loginForm.reset();
-    this.modalService.dismissAll();
-  }
-
-  public submitLoginForm(): void {
-    this.loginFormEvent.emit(this.loginForm.value);
-    this.closeForm();
   }
 }
