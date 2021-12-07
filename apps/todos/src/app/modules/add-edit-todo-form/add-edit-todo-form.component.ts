@@ -13,6 +13,7 @@ import { AddTodo } from '@learning-workspace/api-interfaces';
 export class AddEditTodoFormComponent implements OnInit, AfterViewInit {
   @Input() editMode: boolean;
   @Input() todoForEdit: AddTodo;
+  @Input() html: TemplateRef<HTMLElement>;
 
   @Output() addEditFormEvent = new EventEmitter<AddTodo | undefined>();
 
@@ -22,11 +23,12 @@ export class AddEditTodoFormComponent implements OnInit, AfterViewInit {
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly modalService: NgbModal,
+    private readonly modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
     this.todoForm = this.addEditTodoFormBuild();
+    console.log('html', this.html);
   }
 
   ngAfterViewInit(): void {

@@ -33,7 +33,6 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   }
 
   public submitForm(): void {
-    console.log(this.form);
     this.formEvent.emit(this.form.value);
   }
 

@@ -4,10 +4,9 @@ import { Subscription } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   UserLoginRequest,
-  UserLogoutRequest,
   UserRegisterRequest,
 } from '@learning-workspace/api-interfaces';
-import { ApiService, AuthService } from '../../../../core/services';
+import { UserApiService, AuthService } from '../../../../core/services';
 import { User } from '@learning-workspace/api-interfaces';
 import { Router } from '@angular/router';
 
@@ -24,11 +23,11 @@ export class AuthComponent implements OnInit {
   public userId = '';
   public isLogin = false;
 
-  private user: User | null | undefined;
+  private user: User | null;
   private subscription = new Subscription();
 
   constructor(
-    private readonly apiService: ApiService,
+    private readonly UserApiService: UserApiService,
     private readonly modalService: NgbModal,
     private readonly authService: AuthService,
     private readonly router: Router,
@@ -77,7 +76,7 @@ export class AuthComponent implements OnInit {
 
   private userRegisterSubscription(user: UserRegisterRequest): void {
     this.subscription.add(
-      this.apiService
+      this.UserApiService
         .register({
           email: user.email,
           password: user.password,
@@ -89,26 +88,31 @@ export class AuthComponent implements OnInit {
 
   private userLoginSubscription(user: UserLoginRequest): void {
     this.subscription.add(
-      this.apiService
+      this.UserApiService
         .login({ ...user })
-        .subscribe((user) => this.loginAndAuthActions(user))
+        .subscribe((user) => {
+          if (!user) return;
+          return this.loginAndAuthActions(user)
+        })
     );
   }
 
   private userLogoutSubscription(): void {
     if (!this.isLoggedIn) return;
     this.subscription.add(
-      this.apiService.logout({ id: this.userId }).subscribe(() => {
-        this.user = null;
-        this.isLoggedIn = false;
-        this.userName = 'guest';
-        this.authService.removeUser();
-        this.router.navigate(['/']);
-      })
+      this.UserApiService
+        .logout({ id: this.userId })
+        .subscribe(() => {
+          this.user = null;
+          this.isLoggedIn = false;
+          this.userName = 'guest';
+          this.authService.removeUser();
+          this.router.navigate(['/']);
+        })
     );
   }
 
-  private loginAndAuthActions(user: User | undefined): void {
+  private loginAndAuthActions(user: User): void {
     if (!user) return;
 
     this.user = user;
