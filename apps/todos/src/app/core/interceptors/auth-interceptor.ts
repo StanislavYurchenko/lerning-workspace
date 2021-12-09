@@ -3,20 +3,21 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { AuthService } from '../services';
+import { UserService, AuthService } from '../services';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   constructor(
-    private readonly athService: AuthService,
-    private readonly router: Router
+    private readonly userService: UserService,
+    private readonly authService: AuthService,
+    private readonly router: Router,
   ) {}
 
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const authToken = this.athService.getAuthorizationToken();
+    const authToken = this.authService.getAuthorizationToken();
 
     const authReq = req.clone({
       headers: req.headers.set('Authorization', `Bearer ${authToken}`),
@@ -26,7 +27,7 @@ export class AuthInterceptor implements HttpInterceptor {
       tap((evt) => {}),
       catchError((error: any) => {
         if (error.status === 403) {
-          this.athService.removeUser();
+          this.userService.removeUser();
           this.router.navigate(['/']);
         }
         return of(error);

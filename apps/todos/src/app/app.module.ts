@@ -9,7 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 
-import { LocalStorageService, AuthService, UserApiService, TodoApiService, ValidationService} from './core/services';
+import { LocalStorageService, AuthService, UserService, TodoService, ValidationService} from './core/services';
 import { AuthInterceptor } from './core/interceptors'
 
 @NgModule({
@@ -26,8 +26,8 @@ import { AuthInterceptor } from './core/interceptors'
   providers: [
     LocalStorageService,
     AuthService,
-    UserApiService,
-    TodoApiService,
+    UserService,
+    TodoService,
     ValidationService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],

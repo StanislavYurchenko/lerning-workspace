@@ -1,39 +1,53 @@
 import { Injectable } from '@angular/core';
-import { LocalStorageService } from '..'
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import { User } from '@learning-workspace/api-interfaces';
+import { LocalStorageService } from '..'
+import {
+  User,
+  UserResponse,
+  UserLoginRequest,
+  UserRegisterRequest,
+  UserLogoutRequest,
+  UserLogoutResponse,
+  UserLogoutMessage,
+} from '@learning-workspace/api-interfaces';
 
 @Injectable()
 export class AuthService {
-  constructor(private localStorageService: LocalStorageService) {}
+  constructor(
+    private localStorageService: LocalStorageService,
+    private readonly http: HttpClient,
+  ) {}
 
   public getAuthorizationToken(): string {
     const data = this.localStorageService.getItemParsed('user');
     return data?.token ? data.token : '';
   }
 
-  public getUserName(): string {
-    const data = this.localStorageService.getItemParsed('user');
-    return data?.name ? data.name : '';
-  }
-
-  public getUserId(): string {
-    const data = this.localStorageService.getItemParsed('id');
-    return data?.id ? data.id : '';
-  }
-
-  public saveUser(user: Partial<User>): boolean {
-    this.localStorageService.setItem('user', user);
-    return true;
-  }
-
-  public removeUser(): boolean {
-    this.localStorageService.removeItem('user');
-    return true;
-  }
-
   public isAuthenticated(): boolean {
     const data = this.localStorageService.getItemParsed('user');
     return Boolean(data?.token);
+  }
+
+  public register(body: UserRegisterRequest): Observable<User | undefined> {
+    return this.http
+      .post<UserResponse>('/api/user/register', body)
+      .pipe(map((res) => res.data));
+  }
+
+  public login(body: UserLoginRequest): Observable<User | undefined> {
+    return this.http
+      .post<UserResponse>('/api/user/login', body)
+      .pipe(map((res) => res.data));
+  }
+
+  public logout(
+    body: UserLogoutRequest
+  ): Observable<UserLogoutMessage | undefined> {
+    return this.http
+      .post<UserLogoutResponse>('/api/user/login', body)
+      .pipe(map((res) => res.data));
   }
 }

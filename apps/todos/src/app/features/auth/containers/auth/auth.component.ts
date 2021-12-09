@@ -6,7 +6,7 @@ import {
   UserLoginRequest,
   UserRegisterRequest,
 } from '@learning-workspace/api-interfaces';
-import { UserApiService, AuthService } from '../../../../core/services';
+import { UserService, AuthService } from '../../../../core/services';
 import { User } from '@learning-workspace/api-interfaces';
 import { Router } from '@angular/router';
 
@@ -27,7 +27,7 @@ export class AuthComponent implements OnInit {
   private subscription = new Subscription();
 
   constructor(
-    private readonly UserApiService: UserApiService,
+    private readonly userService: UserService,
     private readonly modalService: NgbModal,
     private readonly authService: AuthService,
     private readonly router: Router,
@@ -70,13 +70,13 @@ export class AuthComponent implements OnInit {
   private initAuth() {
     if (!this.authService.isAuthenticated()) return;
     this.isLoggedIn = true;
-    this.userName = this.authService.getUserName();
-    this.userId = this.authService.getUserId();
+    this.userName = this.userService.getUserName();
+    this.userId = this.userService.getUserId();
   }
 
   private userRegisterSubscription(user: UserRegisterRequest): void {
     this.subscription.add(
-      this.UserApiService
+      this.authService
         .register({
           email: user.email,
           password: user.password,
@@ -88,27 +88,23 @@ export class AuthComponent implements OnInit {
 
   private userLoginSubscription(user: UserLoginRequest): void {
     this.subscription.add(
-      this.UserApiService
-        .login({ ...user })
-        .subscribe((user) => {
-          if (!user) return;
-          return this.loginAndAuthActions(user)
-        })
+      this.authService.login({ ...user }).subscribe((user) => {
+        if (!user) return;
+        return this.loginAndAuthActions(user);
+      })
     );
   }
 
   private userLogoutSubscription(): void {
     if (!this.isLoggedIn) return;
     this.subscription.add(
-      this.UserApiService
-        .logout({ id: this.userId })
-        .subscribe(() => {
-          this.user = null;
-          this.isLoggedIn = false;
-          this.userName = 'guest';
-          this.authService.removeUser();
-          this.router.navigate(['/']);
-        })
+      this.authService.logout({ id: this.userId }).subscribe(() => {
+        this.user = null;
+        this.isLoggedIn = false;
+        this.userName = 'guest';
+        this.userService.removeUser();
+        this.router.navigate(['/']);
+      })
     );
   }
 
@@ -118,13 +114,13 @@ export class AuthComponent implements OnInit {
     this.user = user;
     this.isLoggedIn = true;
     this.userName = user.name;
-    this.userId = user.id
+    this.userId = user.id;
     const data = {
       name: user.name,
       token: user.token,
       id: user.id,
     };
-    this.authService.saveUser(data);
+    this.userService.saveUser(data);
     this.closeModal();
   }
 }

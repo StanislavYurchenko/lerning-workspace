@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Params } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 import {
   Todo,
   TodosResponse,
   TodoResponse,
 } from '@learning-workspace/api-interfaces';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+
 
 @Injectable()
-export class TodoApiService {
+export class TodoService {
   constructor(private readonly http: HttpClient) {}
 
   getTodos(params: Params): Observable<Todo[]> {
