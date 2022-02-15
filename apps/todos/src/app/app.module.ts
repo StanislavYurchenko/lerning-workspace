@@ -9,8 +9,9 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 
-import { LocalStorageService, AuthService, UserService, TodoService, ValidationService} from './core/services';
-import { AuthInterceptor } from './core/interceptors'
+import { StorageService, AuthService, UserService, TodoService, ValidationService} from './core/services';
+import { AuthInterceptor } from './core/interceptors';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,9 +23,10 @@ import { AuthInterceptor } from './core/interceptors'
     NgbModule,
     HeaderModule,
     FooterModule,
+    BrowserAnimationsModule,
   ],
   providers: [
-    LocalStorageService,
+    StorageService,
     AuthService,
     UserService,
     TodoService,

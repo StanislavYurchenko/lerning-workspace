@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { LocalStorageService } from '..'
+import { StorageService } from '..'
 import {
   User,
   UserResponse,
@@ -17,17 +17,17 @@ import {
 @Injectable()
 export class AuthService {
   constructor(
-    private localStorageService: LocalStorageService,
+    private storageService: StorageService,
     private readonly http: HttpClient,
   ) {}
 
   public getAuthorizationToken(): string {
-    const data = this.localStorageService.getItemParsed('user');
+    const data = this.storageService.getItemParsed('user');
     return data?.token ? data.token : '';
   }
 
   public isAuthenticated(): boolean {
-    const data = this.localStorageService.getItemParsed('user');
+    const data = this.storageService.getItemParsed('user');
     return Boolean(data?.token);
   }
 
@@ -40,7 +40,9 @@ export class AuthService {
   public login(body: UserLoginRequest): Observable<User | undefined> {
     return this.http
       .post<UserResponse>('/api/user/login', body)
-      .pipe(map((res) => res.data));
+      .pipe(map((res) => {
+        return res.data
+      }));
   }
 
   public logout(

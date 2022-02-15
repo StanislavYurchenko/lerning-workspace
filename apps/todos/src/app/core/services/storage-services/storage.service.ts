@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class LocalStorageService implements Storage {
+export class StorageService implements Storage {
   private readonly storage: Storage;
 
   constructor() {
