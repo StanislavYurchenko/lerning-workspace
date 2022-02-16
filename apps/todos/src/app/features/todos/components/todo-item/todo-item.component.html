@@ -1,11 +1,11 @@
 <li role="button"
 class="border border-2 rounded p-1 mb-2 bg-light list-group-item"
-[ngClass] = 'todo.ready ? "border-success" : "border-primary"'
+[ngClass] = 'todo?.ready ? "border-success" : "border-primary"'
 >
-  <a [routerLink]="[todo.id]" class="d-flex justify-content-between">
-    <h3 [textContent]="todo.title"></h3>
+  <a [routerLink]="[todo?.id]" class="d-flex justify-content-between">
+    <h3 [textContent]="todo?.title"></h3>
     <div>
-      <button *ngIf="!todo.ready"
+      <button *ngIf="!todo?.ready"
         (click)="checkTodo(); false"
         class = "btn btn-outline-success mr-2"
         learningWorkspaceStopPropagation

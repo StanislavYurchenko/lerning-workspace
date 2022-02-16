@@ -1,4 +1,5 @@
-import { Component, OnInit, AfterViewInit, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -8,7 +9,6 @@ import {
 } from '@learning-workspace/api-interfaces';
 import { UserService, AuthService } from '../../../../core/services';
 import { User } from '@learning-workspace/api-interfaces';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'learning-workspace-auth',

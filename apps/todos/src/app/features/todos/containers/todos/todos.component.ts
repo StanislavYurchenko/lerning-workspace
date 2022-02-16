@@ -109,7 +109,7 @@ export class TodosComponent implements OnInit, OnDestroy {
   }
 
   private getQueryFromParam() {
-    this.searchInit = this.params.search;
+    this.searchInit = this.params?.search;
   }
 
   // TODO: change subscription to rxjs
