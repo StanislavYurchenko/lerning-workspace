@@ -1,5 +1,5 @@
 <div class="d-flex align-items-center ">
-  <p class="m-0 mr-2">Hello {{ userName | titlecase }}</p>
+  <p class="m-0 me-2">Hello {{ userName | titlecase }}</p>
   <button (click)="auth()">{{isLoggedIn ? "Logout": "Login"}}</button>
 </div>
 
@@ -27,11 +27,10 @@
 
       <button
         type="button"
-        class="close ml-auto"
+        class="btn-close ms-auto"
         aria-label="Close"
         (click)="closeModal()"
       >
-        <span aria-hidden="true">&times;</span>
       </button>
     </nav>
 
