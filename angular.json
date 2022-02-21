@@ -47,7 +47,8 @@
           "outputs": ["coverage/apps/api"],
           "options": {
             "jestConfig": "apps/api/jest.config.js",
-            "passWithNoTests": true
+            "passWithNoTests": true,
+            "codeCoverage": true
           }
         }
       },
@@ -79,7 +80,8 @@
           "outputs": ["coverage/libs/services"],
           "options": {
             "jestConfig": "libs/services/jest.config.js",
-            "passWithNoTests": true
+            "passWithNoTests": true,
+            "codeCoverage": true
           }
         },
         "lint": {
@@ -184,7 +186,8 @@
           "outputs": ["coverage/apps/todos"],
           "options": {
             "jestConfig": "apps/todos/jest.config.js",
-            "passWithNoTests": true
+            "passWithNoTests": true,
+            "codeCoverage": true
           }
         }
       },
