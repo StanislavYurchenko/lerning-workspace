@@ -21,22 +21,6 @@ import {
   ValidationService,
 } from './core/services';
 import { AuthInterceptor } from './core/interceptors';
-import { environment } from '../environments/environment';
-
-const storeInit = [
-  StoreModule.forRoot(
-    {},
-    {
-      metaReducers: !environment.production ? [] : [],
-      runtimeChecks: {
-        strictActionImmutability: true,
-        strictStateImmutability: true,
-      },
-    }
-  ),
-  EffectsModule.forRoot([]),
-  !environment.production ? StoreDevtoolsModule.instrument() : [],
-]
 
 @NgModule({
   declarations: [AppComponent],
@@ -49,7 +33,6 @@ const storeInit = [
     HeaderModule,
     FooterModule,
     BrowserAnimationsModule,
-    ...storeInit
   ],
   providers: [
     StorageService,

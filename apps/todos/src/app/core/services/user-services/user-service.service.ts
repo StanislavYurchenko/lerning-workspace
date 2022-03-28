@@ -26,4 +26,9 @@ export class UserService {
     this.storageService.removeItem('user');
     return true;
   }
+
+  public getUser(): string {
+    const data = this.storageService.getItemParsed('user');
+    return data?.name ? data.name : '';
+  }
 }

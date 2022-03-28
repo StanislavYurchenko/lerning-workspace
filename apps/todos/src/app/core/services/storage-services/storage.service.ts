@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { User } from '@learning-workspace/api-interfaces';
 
 @Injectable()
 export class StorageService implements Storage {
@@ -34,6 +35,11 @@ export class StorageService implements Storage {
 
   public getItemParsed(key: string): any | null {
     const data = this.getItem(key);
+    return data ? JSON.parse(data) : null;
+  }
+
+  public getUser(): User | null {
+    const data = this.getItem('user');
     return data ? JSON.parse(data) : null;
   }
 }
