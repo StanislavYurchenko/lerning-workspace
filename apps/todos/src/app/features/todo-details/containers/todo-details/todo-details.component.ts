@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { Todo } from '@learning-workspace/api-interfaces';
-import { ApiService } from '../../../../core/services';
+import { TodoService } from '../../../../core/services';
 
 @Component({
   selector: 'learning-workspace-todo-details',
@@ -19,7 +19,7 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly route: ActivatedRoute,
-    private readonly apiService: ApiService
+    private readonly todoService: TodoService,
   ) {}
 
   ngOnInit(): void {
@@ -33,7 +33,7 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
 
   // TODO: change subscription to rxjs
   private getTodoSubscription(): void {
-    const getTodoSubscription = this.apiService
+    const getTodoSubscription = this.todoService
       .getTodoById(this.todoId)
       .subscribe((todo) => {
         this.todo = todo;

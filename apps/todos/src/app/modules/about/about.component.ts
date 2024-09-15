@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { ApiService } from '../../core/services';
+import { AuthService } from '../../core/services';
 
 import { User } from '@learning-workspace/api-interfaces';
 
@@ -15,7 +15,7 @@ export class AboutComponent implements OnDestroy {
 
   private subscription = new Subscription();
 
-  constructor(private readonly apiService: ApiService) {}
+  constructor(private readonly authService: AuthService) {}
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
@@ -35,14 +35,13 @@ export class AboutComponent implements OnDestroy {
 
   private userRegisterSubscription(): void {
     this.subscription.add(
-      this.apiService
+      this.authService
         .register({
           email: 'yurchenko.stanislav@ukr.net',
           password: '284767Abc',
           name: 'stas',
         })
         .subscribe((user) => {
-          console.log('user', user);
           this.user = user;
         })
     );
@@ -50,13 +49,12 @@ export class AboutComponent implements OnDestroy {
 
   private userLoginSubscription(): void {
     this.subscription.add(
-      this.apiService
+      this.authService
         .login({
           email: 'yurchenko.stanislav@ukr.net',
           password: '284767Abc',
         })
         .subscribe((user) => {
-          console.log('user', user);
           this.user = user;
         })
     );
@@ -65,10 +63,11 @@ export class AboutComponent implements OnDestroy {
   private userLogoutSubscription(): void {
     if (!this.user) return;
     this.subscription.add(
-      this.apiService.logout({ id: this.user?.id }).subscribe((user) => {
-        console.log('user', user);
-        this.user = null;
-      })
+      this.authService
+        .logout({ id: this.user?.id })
+        .subscribe(() => {
+          this.user = null;
+        })
     );
   }
 }

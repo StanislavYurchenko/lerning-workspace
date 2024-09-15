@@ -2,4 +2,11 @@
 
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
+@import "~bootstrap/dist/css/bootstrap.css";
 @import "~bootstrap-icons/font/bootstrap-icons.css";
+
+/* Importing Bootstrap SCSS file. */
+input.ng-invalid.ng-touched {
+  border-color: var(--red);
+  box-shadow: 0 0 0 0.2rem rgb(255 0 0 / 25%);
+}

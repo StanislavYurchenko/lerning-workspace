@@ -8,8 +8,6 @@ import { Strategy, ExtractJwt } from 'passport-jwt';
 import { HTTP_CODE } from '../constants/constants';
 import { AppService } from './app.service';
 
-
-
 dotenv.config();
 const { JWT_SECRET } = process.env;
 
@@ -18,13 +16,11 @@ const params = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
 };
 
-
-
 @Injectable()
 export class AuthorizationMiddleware implements NestMiddleware {
   constructor(private readonly appService: AppService) {}
 
-  async use(req: Request, res: Response, next: NextFunction) {
+  async use(req, res: Response, next: NextFunction) {
     passport.use(
       new Strategy(params, async (payload, done) => {
         try {

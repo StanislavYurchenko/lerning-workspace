@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { AuthCanActivateGuard } from './core/guards'
+
 const routes: Routes = [
   {
     path: 'about',
@@ -11,6 +13,7 @@ const routes: Routes = [
   },
   {
     path: 'todos',
+    canActivate: [AuthCanActivateGuard],
     loadChildren: () =>
       import('./features/todos/todos.module').then(
         (module) => module.TodosModule
@@ -18,6 +21,7 @@ const routes: Routes = [
   },
   {
     path: 'todos/:id',
+    canActivate: [AuthCanActivateGuard],
     loadChildren: () =>
       import('./features/todo-details/todo-details.module').then(
         (module) => module.TodoDetailsModule

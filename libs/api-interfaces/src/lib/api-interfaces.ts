@@ -68,3 +68,7 @@ export interface UserLogoutResponse {
     message: string;
   };
 }
+
+export interface UserLogoutMessage {
+  message: string;
+}

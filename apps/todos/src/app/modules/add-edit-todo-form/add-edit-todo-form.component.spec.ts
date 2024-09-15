@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { AddEditTodoFormComponent } from './add-edit-todo-form.component';
 
@@ -8,7 +10,15 @@ describe('AddEditTodoFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AddEditTodoFormComponent ]
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+      ],
+      declarations: [ AddEditTodoFormComponent ],
+      providers: [
+        FormBuilder,
+        NgbModal,
+      ],
     })
     .compileComponents();
   });

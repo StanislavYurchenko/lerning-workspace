@@ -1,26 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Params } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 import {
   Todo,
   TodosResponse,
   TodoResponse,
-  UserResponse,
-  UserLoginRequest,
-  UserRegisterRequest,
-  UserLogoutRequest,
-  UserLogoutResponse,
 } from '@learning-workspace/api-interfaces';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class ApiService {
+
+@Injectable()
+export class TodoService {
   constructor(private readonly http: HttpClient) {}
 
-  // TODOS
   getTodos(params: Params): Observable<Todo[]> {
     return this.http
       .get<TodosResponse>('/api/todo', { params })
@@ -48,25 +42,6 @@ export class ApiService {
   removeTodoById(id: string): Observable<Todo> {
     return this.http
       .delete<TodoResponse>(`/api/todo/${id}`)
-      .pipe(map((res) => res.data));
-  }
-
-  // USERS
-  register(body: UserRegisterRequest) {
-    return this.http
-      .post<UserResponse>('/api/user/register', body)
-      .pipe(map((res) => res.data));
-  }
-
-  login(body: UserLoginRequest) {
-    return this.http
-      .post<UserResponse>('/api/user/login', body)
-      .pipe(map((res) => res.data));
-  }
-
-  logout(body: UserLogoutRequest) {
-    return this.http
-      .post<UserLogoutResponse>('/api/user/login', body)
       .pipe(map((res) => res.data));
   }
 }

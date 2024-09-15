@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { SearchNewComponent } from './search-new.component';
 
@@ -8,7 +9,12 @@ describe('SearchNewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SearchNewComponent ]
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+      ],
+      declarations: [ SearchNewComponent ],
+      providers: [ FormBuilder ],
     })
     .compileComponents();
   });

@@ -4,7 +4,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { Todo, AddTodo } from '@learning-workspace/api-interfaces';
-import { ApiService } from '../../../../core/services';
+import { TodoService } from '../../../../core/services';
 import { TodoActionEnum } from '../../enums';
 
 @Component({
@@ -23,14 +23,13 @@ export class TodosComponent implements OnInit, OnDestroy {
   private params: Params;
 
   constructor(
-    private readonly apiService: ApiService,
+    private readonly todoService: TodoService,
     private readonly activatedRoute: ActivatedRoute,
-    private readonly router: Router
+    private readonly router: Router,
   ) {}
 
   ngOnInit(): void {
     this.paramsSubscription();
-    this.getTodosSubscription(this.params);
     this.getQueryFromParam();
   }
 
@@ -110,13 +109,13 @@ export class TodosComponent implements OnInit, OnDestroy {
   }
 
   private getQueryFromParam() {
-    this.searchInit = this.params.search;
+    this.searchInit = this.params?.search;
   }
 
   // TODO: change subscription to rxjs
   private getTodosSubscription(params: Params): void {
     this.subscription.add(
-      this.apiService
+      this.todoService
         .getTodos(params)
         .subscribe((todos) => (this.todos = todos))
     );
@@ -124,13 +123,13 @@ export class TodosComponent implements OnInit, OnDestroy {
 
   private addTodoSubscription(todo: AddTodo): void {
     this.subscription.add(
-      this.apiService.addTodo(todo).subscribe((todo) => this.todos.push(todo))
+      this.todoService.addTodo(todo).subscribe((todo) => this.todos.push(todo))
     );
   }
 
   private editTodoSubscription(id: string, todo: AddTodo): void {
     this.subscription.add(
-      this.apiService.updateTodoById(id, todo).subscribe((updatedTodo) => {
+      this.todoService.updateTodoById(id, todo).subscribe((updatedTodo) => {
         this.todos = this.todos.map((todo) =>
           todo.id === updatedTodo.id ? updatedTodo : todo
         );
@@ -140,7 +139,7 @@ export class TodosComponent implements OnInit, OnDestroy {
 
   private checkTodoSubscription(id: string): void {
     this.subscription.add(
-      this.apiService
+      this.todoService
         .updateTodoById(id, { ready: true })
         .subscribe((updatedTodo) => {
           this.todos = this.todos.map((todo) =>
@@ -152,7 +151,7 @@ export class TodosComponent implements OnInit, OnDestroy {
 
   private removeTodoSubscription(id: string): void {
     this.subscription.add(
-      this.apiService.removeTodoById(id).subscribe((removedTodo) => {
+      this.todoService.removeTodoById(id).subscribe((removedTodo) => {
         this.todos = this.todos.filter((todo) => todo.id !== removedTodo.id);
       })
     );
